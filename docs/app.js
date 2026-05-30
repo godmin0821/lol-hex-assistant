@@ -254,27 +254,11 @@ function renderError(message, suggestions = []) {
 }
 
 function render(data) {
-  const champion = data.champion;
   statusEl.textContent = `${data.freshness.patch} · ${data.freshness.sourceCount} 个来源`;
   result.className = "result";
   result.innerHTML = `
-    <section class="hero-line">
-      <div>
-        <p class="eyebrow">当前英雄</p>
-        <h2>${escapeHtml(champion.displayName || champion.zhName || champion.enName)}</h2>
-        <span>${escapeHtml(champion.title || champion.zhName || "")}</span>
-      </div>
-      <div class="freshness">
-        <strong>${escapeHtml(data.summary?.tier || "-")} 级</strong>
-        <span>${escapeHtml(data.summary?.winRate || "暂无胜率")} · ${escapeHtml(data.freshness.patch)} 版本</span>
-      </div>
-    </section>
-
-    <div class="notice">
-      <strong>${escapeHtml(data.verdict)}</strong>
-      <span>最新更新时间：${new Date(data.updatedAt).toLocaleString("zh-CN")}</span>
-    </div>
-
+    ${resultHero(data)}
+    ${loadoutOverview(data)}
     ${mobileTierNav(data)}
     ${mindMapSection(data)}
     ${buildSection(data)}
@@ -300,6 +284,104 @@ function render(data) {
         ${data.socialSearches.map(socialCard).join("")}
       </div>
     </section>
+  `;
+}
+
+function resultHero(data) {
+  const champion = data.champion || {};
+  const splash = championSplash(champion);
+  return `
+    <section class="result-hero">
+      <img src="${splash}" alt="" />
+      <div class="result-hero-shade"></div>
+      <div class="result-hero-content">
+        <div>
+          <p class="eyebrow">当前英雄</p>
+          <h2>${escapeHtml(champion.title || champion.displayName || champion.zhName || champion.enName)}</h2>
+          <span>${escapeHtml(champion.displayName || champion.zhName || champion.enName || "")}</span>
+        </div>
+        <div class="hero-metrics">
+          <span><b>${escapeHtml(data.summary?.tier || "-")}</b>评级</span>
+          <span><b>${escapeHtml(data.summary?.winRate || "-")}</b>胜率</span>
+          <span><b>${escapeHtml(data.freshness.patch || "-")}</b>版本</span>
+        </div>
+        <p>${escapeHtml(data.verdict)}</p>
+      </div>
+    </section>
+  `;
+}
+
+function championSplash(champion = {}) {
+  const id = champion.id || champion.enName || champion.slug || "Aatrox";
+  return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${encodeURIComponent(id)}_0.jpg`;
+}
+
+function loadoutOverview(data) {
+  const core = bestRow(data.build?.core);
+  const boots = bestRow(data.build?.boots);
+  const start = bestRow(data.build?.starting);
+  const skill = data.skillOrders?.[0];
+  const updatedAt = data.updatedAt ? new Date(data.updatedAt).toLocaleString("zh-CN") : "未知";
+  const tiers = groupBranchesByTier(data.branches || []);
+
+  return `
+    <section class="loadout-overview" aria-label="对局速查">
+      <div class="overview-head">
+        <div>
+          <p class="eyebrow">对局速查</p>
+          <h3>先按你拿到的强化品质选路线</h3>
+        </div>
+        <span>更新 ${escapeHtml(updatedAt)}</span>
+      </div>
+
+      <div class="core-summary">
+        ${summaryCard("默认核心", core?.items?.join(" → ") || "看下方分支", core)}
+        ${summaryCard("优先鞋子", boots?.items?.join(" → ") || "按阵容选择", boots)}
+        ${summaryCard("出门倾向", start?.items?.join(" → ") || "暂无数据", start)}
+        ${skill ? summaryCard("技能主升", skill.order, skill) : ""}
+      </div>
+
+      <div class="tier-route-grid">
+        ${tiers.map(tierRouteCard).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function bestRow(rows = []) {
+  return rows?.find((item) => item.items?.length) || rows?.[0];
+}
+
+function summaryCard(title, value, row = {}) {
+  const meta = [row.pickRate ? `登场 ${row.pickRate}` : "", row.winRate ? `胜率 ${row.winRate}` : ""].filter(Boolean).join(" · ");
+  return `
+    <article class="summary-card">
+      <span>${escapeHtml(title)}</span>
+      <strong>${escapeHtml(value || "-")}</strong>
+      ${meta ? `<small>${escapeHtml(meta)}</small>` : ""}
+    </article>
+  `;
+}
+
+function tierRouteCard(tier) {
+  const firstBranch = tier.branches[0];
+  const augments = tier.branches.flatMap((branch) => branch.augments).slice(0, 4);
+  return `
+    <article class="tier-route-card ${escapeHtml(tier.className)}">
+      <div class="tier-route-title">
+        <strong>${escapeHtml(tier.title.replace("强化", ""))}</strong>
+        <span>${escapeHtml(firstBranch?.label || "按基础核心")}</span>
+      </div>
+      <div class="route-augments">
+        ${
+          augments
+            .map((augment) => `<span>${escapeHtml(augment.name)}<small>${escapeHtml(augment.winRate || "-")}</small></span>`)
+            .join("") || `<span>暂无数据</span>`
+        }
+      </div>
+      <div class="item-path">${escapeHtml(firstBranch?.itemPath || "按基础核心出装")}</div>
+      <p>${escapeHtml(firstBranch?.reason || tier.hint)}</p>
+    </article>
   `;
 }
 
