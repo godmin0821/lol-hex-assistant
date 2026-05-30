@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>海克斯大乱斗 AI 辅助</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="workspace">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">英雄联盟海克斯大乱斗</p>
+            <h1>海克斯大乱斗 AI 辅助</h1>
+          </div>
+          <span id="status" class="status">待查询</span>
+        </div>
+
+        <form id="search-form" class="search">
+          <input
+            id="champion-input"
+            autocomplete="off"
+            placeholder="输入英雄名：阿狸 / 光辉 / 卡莎 / 盲僧"
+            aria-label="英雄名"
+          />
+          <button type="submit">生成攻略</button>
+        </form>
+
+        <section id="result" class="result empty">
+          <div class="empty-state">
+            <strong>输入英雄名后，会自动拉取最新站点信息。</strong>
+            <span>输出包括强化分支思维导图、出装路线、黑科技判断和来源链接。</span>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>

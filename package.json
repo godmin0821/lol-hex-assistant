@@ -1,0 +1,14 @@
+{
+  "name": "lol-hex-assistant",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local AI-style League of Legends Arena augment and build assistant.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "export:static": "node scripts/export-static.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
