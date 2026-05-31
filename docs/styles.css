@@ -214,8 +214,14 @@ button:hover {
 }
 
 .result-hero-content > div > span,
+.result-hero-content .data-scope,
 .result-hero-content p {
   color: #d7e0e8;
+}
+
+.result-hero-content .data-scope {
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .result-hero-content p {

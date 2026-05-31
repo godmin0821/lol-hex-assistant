@@ -254,7 +254,7 @@ function renderError(message, suggestions = []) {
 }
 
 function render(data) {
-  statusEl.textContent = `${data.freshness.patch} · ${data.freshness.sourceCount} 个来源`;
+  statusEl.textContent = `${data.freshness.patch} 线上 · ${data.freshness.statsPatch || data.freshness.patch} 数据`;
   result.className = "result";
   result.innerHTML = `
     ${resultHero(data)}
@@ -290,6 +290,8 @@ function render(data) {
 function resultHero(data) {
   const champion = data.champion || {};
   const splash = championSplash(champion);
+  const statsPatch = data.freshness.statsPatch || data.freshness.patch || "-";
+  const dataLabel = statsPatch === data.freshness.patch ? "当前统计" : `${statsPatch} 统计`;
   return `
     <section class="result-hero">
       <img src="${splash}" alt="" />
@@ -303,8 +305,9 @@ function resultHero(data) {
         <div class="hero-metrics">
           <span><b>${escapeHtml(data.summary?.tier || "-")}</b>评级</span>
           <span><b>${escapeHtml(data.summary?.winRate || "-")}</b>胜率</span>
-          <span><b>${escapeHtml(data.freshness.patch || "-")}</b>版本</span>
+          <span><b>${escapeHtml(data.freshness.patch || "-")}</b>线上版本</span>
         </div>
+        <small class="data-scope">${escapeHtml(dataLabel)} · ${escapeHtml(data.freshness.dataDate || "最近抓取")} · 强化池按国服线上版本整理</small>
         <p>${escapeHtml(data.verdict)}</p>
       </div>
     </section>

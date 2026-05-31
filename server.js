@@ -9,6 +9,9 @@ const port = Number(process.env.PORT || 4173);
 const host = process.env.HOST || "127.0.0.1";
 
 const CACHE_MS = 1000 * 60 * 20;
+const LIVE_MAYHEM_PATCH = "26.11";
+const LIVE_MAYHEM_PATCH_NOTES =
+  "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-11-notes/";
 const pageCache = new Map();
 let championCache = null;
 let itemNameCache = null;
@@ -697,51 +700,61 @@ function classifyAugment(augment) {
   return "通用强化流";
 }
 
+function detectBuildProfile(build) {
+  const items = [...(build.starting || []), ...(build.core || []), ...(build.late || [])]
+    .flatMap((row) => row.items || [])
+    .join(" ");
+  if (/卢登|兰德里|影焰|法师之靴|灭世者|中娅|虚空之杖|视界专注|大天使|巫妖|纳什之牙|女妖面纱/.test(items)) {
+    return "mage";
+  }
+  if (/心之钢|狂徒|霸王血铠|荆棘之甲|振奋盔甲|日炎|石像鬼|巨型九头蛇/.test(items)) {
+    return "bruiser";
+  }
+  if (/无尽之刃|夺萃之镰|收集者|破败王者之刃|卢安娜|饮血剑|轻语|幽梦|岚切|电刀/.test(items)) {
+    return "physical";
+  }
+  return "default";
+}
+
+function situationalItems(profile, label) {
+  if (profile === "mage") {
+    if (label === "生存拉扯流") return ["中娅沙漏", "女妖面纱", "星界驱驰"];
+    if (label === "普攻特效流") return ["纳什之牙", "巫妖之祸", "中娅沙漏"];
+    if (label === "技能命中/消耗流") return ["兰德里的苦楚", "虚空之杖", "中娅沙漏"];
+    return ["灭世者的死亡之帽", "虚空之杖", "中娅沙漏"];
+  }
+  if (profile === "bruiser") {
+    if (label === "爆发收割流") return ["黑色切割者", "斯特拉克的挑战护手", "死亡之舞"];
+    if (label === "普攻特效流") return ["黑色切割者", "斯特拉克的挑战护手", "破败王者之刃"];
+    return ["狂徒铠甲", "荆棘之甲", "振奋盔甲"];
+  }
+  if (profile === "physical") {
+    if (label === "生存拉扯流") return ["饮血剑", "斯特拉克的挑战护手", "死亡之舞"];
+    if (label === "普攻特效流") return ["破败王者之刃", "卢安娜的飓风", "无尽之刃"];
+    return ["无尽之刃", "收集者", "凡性的提醒"];
+  }
+  return [];
+}
+
 function buildBranchAdvice(augment, build) {
   const core = build.core[0]?.items || [];
   const fallbackCore = core.length ? core : [...(build.starting[0]?.items || []), ...(build.boots[0]?.items || [])];
   const label = classifyAugment(augment);
+  const profile = detectBuildProfile(build);
   const path = fallbackCore.slice(0, 4);
   const add = (items) => [...new Set([...path, ...items])].slice(0, 5);
-  if (label === "技能命中/消耗流") {
-    return {
-      label,
-      items: add(["兰德里的苦楚", "虚空之杖", "中娅沙漏"]),
-      reason: "强化靠技能命中或持续触发打收益，优先技能急速、法穿和持续伤害；团战先消耗再收割。"
-    };
-  }
-  if (label === "法强成长流") {
-    return {
-      label,
-      items: add(["灭世者的死亡之帽", "虚空之杖", "中娅沙漏"]),
-      reason: "强化直接放大法强或技能急速，出装围绕高法强和穿透堆上限，成型后打关键技能命中。"
-    };
-  }
-  if (label === "爆发收割流") {
-    return {
-      label,
-      items: add(["影焰", "灭世者的死亡之帽", "虚空之杖"]),
-      reason: "强化提高斩杀或暴击爆发，装备优先法穿和爆发，不要拖成纯消耗。"
-    };
-  }
-  if (label === "生存拉扯流") {
-    return {
-      label,
-      items: add(["中娅沙漏", "女妖面纱", "星界驱驰"]),
-      reason: "强化给生存或移速收益时，出装补容错，利用大乱斗长线团战反复进出场。"
-    };
-  }
-  if (label === "普攻特效流") {
-    return {
-      label,
-      items: add(["纳什之牙", "巫妖之祸", "灭世者的死亡之帽"]),
-      reason: "强化把普攻价值拉高时，转向攻速/特效/普攻触发装备，不要只按纯法师消耗出。"
-    };
-  }
+  const items = situationalItems(profile, label);
+  const reasons = {
+    "技能命中/消耗流": "强化靠技能命中或持续触发打收益。保持英雄原本的装备体系，优先选择能稳定触发、提高持续作战的补装。",
+    法强成长流: "强化直接放大技能收益。保持基础核心，补充同体系的法强、穿透或保命装备。",
+    爆发收割流: "强化提高斩杀或爆发收益。保持基础核心，补充同体系的伤害或穿透装备。",
+    生存拉扯流: "强化给生存或移速收益。沿用基础核心并补容错，利用长线团战反复进出场。",
+    普攻特效流: "强化把普攻价值拉高。保持英雄原本的伤害类型，补充同体系的攻速、特效或近身容错。"
+  };
   return {
     label,
-    items: add(["灭世者的死亡之帽", "虚空之杖", "中娅沙漏"]),
-    reason: "没有明显改玩法时，沿用最高胜率核心出装，根据对面前排和刺客数量补穿透或保命。"
+    items: add(items),
+    reason: reasons[label] || "没有明显改玩法时，沿用最高胜率核心出装，再根据敌方阵容补穿透或保命。"
   };
 }
 
@@ -752,6 +765,7 @@ function parseMayhemPage(html, champion, sourceSlug = champion.slug) {
   const pageChampionName = lines.find((line) => line.includes("海克斯大乱斗出装"))?.split(" ")[0] || championName;
   const desc = meta.desc || lines.find((line) => line.includes("胜率") && line.includes("版本")) || "";
   const patch = desc.match(/(\d{2}\.\d{1,2})版本/)?.[1] || meta.title.match(/（(\d{2}\.\d{1,2})）/)?.[1] || "最新";
+  const dataDate = lines.find((line) => line.startsWith("数据日期:"))?.replace("数据日期:", "").trim() || "";
   const tier = desc.match(/([SABC][+]?|D)级强度/)?.[1] || lines.find((line) => /^[SABC][+]?|D$/.test(line)) || "";
   const winRate = desc.match(/胜率\s*([0-9.]+%)/)?.[1] || "";
 
@@ -771,12 +785,19 @@ function parseMayhemPage(html, champion, sourceSlug = champion.slug) {
     champion: {
       ...champion,
       displayName: pageChampionName,
-      mayhemUrl: `https://arammayhem.com/zh-cn/champions/${sourceSlug}`
+      mayhemUrl: `https://arammayhem.com/zh-cn/build/${sourceSlug}/`
     },
     updatedAt: new Date().toISOString(),
-    freshness: { patch, sourceCount: 1, championDataCount: championCache?.count || 0 },
-    verdict: `${pageChampionName} 当前为 ${tier || "未知"} 级，胜率 ${winRate || "暂无"}。下面按海克斯大乱斗的强化分支给出出装。`,
-    summary: { tier, winRate, patch, source: "ARAM Mayhem" },
+    freshness: {
+      patch: LIVE_MAYHEM_PATCH,
+      statsPatch: patch,
+      dataDate,
+      sourceCount: 2,
+      championDataCount: championCache?.count || 0,
+      patchNotesUrl: LIVE_MAYHEM_PATCH_NOTES
+    },
+    verdict: `${pageChampionName} 当前统计快照为 ${patch}：${tier || "未知"} 级，胜率 ${winRate || "暂无"}。下方按强化品质给出同职业装备路线。`,
+    summary: { tier, winRate, patch: LIVE_MAYHEM_PATCH, statsPatch: patch, source: "ARAM Mayhem" },
     skillOrders: parseSkillOrders(lines),
     build,
     augments,
@@ -789,12 +810,18 @@ function parseMayhemPage(html, champion, sourceSlug = champion.slug) {
     sources: [
       {
         name: "ARAM Mayhem",
-        url: `https://arammayhem.com/zh-cn/champions/${sourceSlug}`,
+        url: `https://arammayhem.com/zh-cn/build/${sourceSlug}/`,
         ok: true,
         snippets: [
           desc,
           ...augments.slice(0, 3).map((augment) => `${augment.name} · ${augment.tier} · 胜率 ${augment.winRate}`)
         ].filter(Boolean)
+      },
+      {
+        name: "Riot 26.11 官方公告",
+        url: LIVE_MAYHEM_PATCH_NOTES,
+        ok: true,
+        snippets: ["国服当前线上版本：26.11", "强化推荐使用 ARAM Mayhem 当前统计快照"]
       }
     ],
     socialSearches: [
@@ -1014,7 +1041,7 @@ async function recommend(input) {
   let lastError = null;
   for (const slug of championSlugCandidates(champion)) {
     try {
-      const url = `https://arammayhem.com/zh-cn/champions/${slug}`;
+      const url = `https://arammayhem.com/zh-cn/build/${slug}/`;
       const html = await fetchText(url);
       return parseMayhemPage(html, champion, slug);
     } catch (error) {
