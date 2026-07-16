@@ -7,6 +7,7 @@ const sampleNames = ["阿狸", "亚索", "卡莎", "永恩", "光辉", "盲僧",
 let sampleIndex = 0;
 let staticIndexPromise = null;
 let globalMeta = null;
+let itemCatalog = { version: "16.11.1", items: {} };
 let currentData = null;
 const plannerSelections = new Map();
 
@@ -169,8 +170,9 @@ async function loadStaticIndex() {
 
 async function loadGlobalMeta() {
   try {
-    const response = await fetch("data/meta.json");
-    if (response.ok) globalMeta = await response.json();
+    const [metaResponse, itemResponse] = await Promise.all([fetch("data/meta.json"), fetch("data/items.json")]);
+    if (metaResponse.ok) globalMeta = await metaResponse.json();
+    if (itemResponse.ok) itemCatalog = await itemResponse.json();
   } catch {
     globalMeta = null;
   }
@@ -275,6 +277,7 @@ function renderError(message, suggestions = []) {
 
 function render(data) {
   currentData = data;
+  document.body.classList.add("has-result");
   statusEl.textContent = `${data.freshness.patch} 线上 · ${data.freshness.statsPatch || data.freshness.patch} 数据`;
   result.className = "result";
   result.innerHTML = `
@@ -356,9 +359,12 @@ function matchHeader(data) {
   const splash = championSplash(champion);
   return `
     <section class="match-header">
-      <img src="${splash}" alt="" />
-      <div>
-        <p class="eyebrow">当前英雄</p>
+      <div class="match-hero-art">
+        <img src="${splash}" alt="${escapeHtml(champion.title || champion.displayName || "当前英雄")}" />
+        <span aria-hidden="true"></span>
+      </div>
+      <div class="match-hero-copy">
+        <p class="eyebrow">当前英雄 · 战术规划</p>
         <h2>${escapeHtml(champion.title || champion.displayName || champion.zhName || champion.enName)}</h2>
         <span>${escapeHtml(data.summary?.tier || "-")} 级 · 胜率 ${escapeHtml(data.summary?.winRate || "-")} · ${escapeHtml(data.freshness?.patch || "-")} 数据</span>
       </div>
@@ -384,7 +390,7 @@ function livePlannerSection(data) {
     <section id="live-planner" class="live-planner" aria-label="强化实时规划器">
       <div class="planner-command">
         <div>
-          <p class="eyebrow">实战流程</p>
+          <p class="eyebrow">强化路线</p>
           <h3>${isComplete ? "本局路线已成型" : selected.length ? `继续选择第 ${step} 个符文` : "先选择第 1 个符文"}</h3>
           <p>${escapeHtml(stepText)}</p>
         </div>
@@ -394,56 +400,60 @@ function livePlannerSection(data) {
         </div>
       </div>
 
-      <div class="planner-board">
-        <div class="planner-left">
-          <div class="planner-slots" aria-label="已选择强化">
-            ${[0, 1, 2, 3]
-              .map((index) => {
-                const value = selected[index];
-                const active = !value && index === selected.length && selected.length < 4;
-                return `
-                  <button
-                    type="button"
-                    class="planner-slot ${value ? "filled" : ""} ${active ? "active" : ""}"
-                    data-planner-action="${value ? "remove" : "noop"}"
-                    data-index="${index}"
-                    aria-label="${value ? `移除第 ${index + 1} 个强化 ${value}` : `第 ${index + 1} 个强化未选择`}"
-                  >
-                    <small>第 ${index + 1} 个符文</small>
-                    <strong>${escapeHtml(value || (active ? "现在录入" : "待选择"))}</strong>
-                  </button>
-                `;
-              })
-              .join("")}
-          </div>
+      <div class="planner-slots" aria-label="已选择强化">
+        ${[0, 1, 2, 3]
+          .map((index) => {
+            const value = selected[index];
+            const active = !value && index === selected.length && selected.length < 4;
+            return `
+              <button
+                type="button"
+                class="planner-slot ${value ? "filled" : ""} ${active ? "active" : ""}"
+                data-planner-action="${value ? "remove" : "noop"}"
+                data-index="${index}"
+                aria-label="${value ? `移除第 ${index + 1} 个强化 ${value}` : `第 ${index + 1} 个强化未选择`}"
+              >
+                <span>${index + 1}</span>
+                <small>第 ${index + 1} 个符文</small>
+                <strong>${escapeHtml(value || (active ? "现在录入" : "待选择"))}</strong>
+              </button>
+            `;
+          })
+          .join("")}
+      </div>
 
-          <div class="planner-input-row">
-            <input id="planner-augment-input" list="planner-augment-options" placeholder="${escapeHtml(`输入第 ${step} 个强化符文`)}" />
-            <datalist id="planner-augment-options">
-              ${pool.map((augment) => `<option value="${escapeHtml(augment.name)}"></option>`).join("")}
-            </datalist>
-            <button type="button" data-planner-action="add">确认</button>
-          </div>
-        </div>
+      <div class="planner-current ${selected.length ? "has-selection" : ""}">
+        <span>${selected.length ? `已锁定第 ${selected.length} 个符文` : "等待第一个强化"}</span>
+        <strong>${escapeHtml(selected[selected.length - 1] || "输入你拿到的强化，立即生成两条路线")}</strong>
+      </div>
 
-        <div class="planner-routes">
-          ${routes.map((route) => plannerRouteCard(route, defaultCore)).join("")}
-        </div>
+      <div class="planner-routes">
+        ${routes.map((route) => plannerRouteCard(route, defaultCore, data)).join("")}
+      </div>
+
+      <div class="planner-input-row">
+        <input id="planner-augment-input" list="planner-augment-options" placeholder="${escapeHtml(`输入第 ${step} 个强化符文`)}" />
+        <datalist id="planner-augment-options">
+          ${pool.map((augment) => `<option value="${escapeHtml(augment.name)}"></option>`).join("")}
+        </datalist>
+        <button type="button" data-planner-action="add">${isComplete ? "本局已完成" : `录入第 ${step} 个符文`}</button>
       </div>
     </section>
   `;
 }
 
-function plannerRouteCard(route, defaultCore = "") {
+function plannerRouteCard(route, defaultCore = "", data = {}) {
+  const items = route.items.length ? route.items : defaultCore.split(" → ").filter(Boolean);
   return `
     <article class="planner-route ${escapeHtml(route.kind)}">
       <div class="planner-route-head">
         <span>${escapeHtml(route.badge)}</span>
         <strong>${escapeHtml(route.title)}</strong>
+        <em>${route.kind === "stable" ? "推荐首选" : "灵活备选"}</em>
       </div>
       <div class="planner-route-block">
         <small>现在怎么出装</small>
-        <div class="item-path">${escapeHtml(route.items.join(" → ") || defaultCore || "按默认核心出装")}</div>
+        ${itemSequence(items, data)}
       </div>
       <div class="planner-route-block">
         <small>下一手看到就拿</small>
@@ -467,6 +477,22 @@ function plannerRouteCard(route, defaultCore = "") {
       </div>
       <p>${escapeHtml(route.reason)}</p>
     </article>
+  `;
+}
+
+function itemSequence(items = [], data = {}) {
+  const version = data.champion?.patch || itemCatalog.version || "16.11.1";
+  return `
+    <div class="item-sequence" aria-label="${escapeHtml(items.join("，"))}">
+      ${items
+        .slice(0, 5)
+        .map((name) => {
+          const itemId = itemCatalog.items?.[name];
+          const icon = itemId ? `https://ddragon.leagueoflegends.com/cdn/${encodeURIComponent(version)}/img/item/${encodeURIComponent(itemId)}.png` : "";
+          return `<span>${icon ? `<img src="${icon}" alt="" />` : ""}<b>${escapeHtml(name)}</b></span>`;
+        })
+        .join("")}
+    </div>
   `;
 }
 
