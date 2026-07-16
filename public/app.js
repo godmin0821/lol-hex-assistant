@@ -7,6 +7,8 @@ const sampleNames = ["阿狸", "亚索", "卡莎", "永恩", "光辉", "盲僧",
 let sampleIndex = 0;
 let staticIndexPromise = null;
 let globalMeta = null;
+let currentData = null;
+const plannerSelections = new Map();
 
 const commonAliases = {
   狐狸: "ahri",
@@ -84,6 +86,12 @@ form.addEventListener("submit", async (event) => {
 });
 
 result.addEventListener("click", (event) => {
+  const plannerButton = event.target.closest("[data-planner-action]");
+  if (plannerButton) {
+    handlePlannerAction(plannerButton);
+    return;
+  }
+
   const button = event.target.closest("[data-champion]");
   if (!button) return;
   input.value = button.dataset.champion;
@@ -108,7 +116,7 @@ async function getRecommendation(champion) {
   if (!location.hostname.endsWith("github.io")) {
     try {
       const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 2500);
+      const timer = setTimeout(() => controller.abort(), 8000);
       const response = await fetch("api/recommend", {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -266,10 +274,12 @@ function renderError(message, suggestions = []) {
 }
 
 function render(data) {
+  currentData = data;
   statusEl.textContent = `${data.freshness.patch} 线上 · ${data.freshness.statsPatch || data.freshness.patch} 数据`;
   result.className = "result";
   result.innerHTML = `
     ${resultHero(data)}
+    ${livePlannerSection(data)}
     ${loadoutOverview(data)}
     ${mobileTierNav(data)}
     ${mindMapSection(data)}
@@ -300,6 +310,43 @@ function render(data) {
   `;
 }
 
+function handlePlannerAction(button) {
+  if (!currentData) return;
+  const key = plannerKey(currentData);
+  const selected = plannerSelections.get(key) || [];
+  const action = button.dataset.plannerAction;
+
+  if (action === "add") {
+    const field = result.querySelector("#planner-augment-input");
+    const value = resolveAugmentInput(field?.value || "", currentData);
+    if (value && selected.length < 4 && !selected.some((item) => normalize(item) === normalize(value))) {
+      plannerSelections.set(key, [...selected, value]);
+    }
+    if (field) field.value = "";
+  }
+
+  if (action === "pick") {
+    const value = button.dataset.augmentName;
+    if (value && selected.length < 4 && !selected.some((item) => normalize(item) === normalize(value))) {
+      plannerSelections.set(key, [...selected, value]);
+    }
+  }
+
+  if (action === "remove") {
+    const index = Number(button.dataset.index);
+    plannerSelections.set(key, selected.filter((_, currentIndex) => currentIndex !== index));
+  }
+
+  if (action === "reset") plannerSelections.set(key, []);
+  refreshPlanner(currentData);
+}
+
+function refreshPlanner(data) {
+  const planner = result.querySelector("#live-planner");
+  if (!planner) return;
+  planner.outerHTML = livePlannerSection(data);
+}
+
 function resultHero(data) {
   const champion = data.champion || {};
   const splash = championSplash(champion);
@@ -328,6 +375,230 @@ function resultHero(data) {
       </div>
     </section>
   `;
+}
+
+function livePlannerSection(data) {
+  const selected = plannerSelections.get(plannerKey(data)) || [];
+  const pool = augmentPool(data);
+  const routes = buildPlannerRoutes(data, selected);
+  const candidates = recommendNextAugments(data, selected, 8);
+
+  return `
+    <section id="live-planner" class="live-planner" aria-label="强化实时规划器">
+      <div class="planner-head">
+        <div>
+          <p class="eyebrow">实战规划器</p>
+          <h3>你拿到什么强化，就把它填进来</h3>
+        </div>
+        <span>${selected.length ? `已锁定 ${selected.length}/4 个强化` : "先输入第一个强化，路线会立刻收敛"}</span>
+      </div>
+
+      <div class="planner-slots">
+        ${[0, 1, 2, 3]
+          .map((index) => {
+            const value = selected[index];
+            return `
+              <button
+                type="button"
+                class="planner-slot ${value ? "filled" : ""}"
+                data-planner-action="${value ? "remove" : "noop"}"
+                data-index="${index}"
+                aria-label="${value ? `移除第 ${index + 1} 个强化 ${value}` : `第 ${index + 1} 个强化未选择`}"
+              >
+                <small>第 ${index + 1} 个</small>
+                <strong>${escapeHtml(value || "待选择")}</strong>
+              </button>
+            `;
+          })
+          .join("")}
+      </div>
+
+      <div class="planner-input-row">
+        <input id="planner-augment-input" list="planner-augment-options" placeholder="输入你刚拿到的强化，如：术士果汁盒 / 虚幻武器 / 大法师" />
+        <datalist id="planner-augment-options">
+          ${pool.map((augment) => `<option value="${escapeHtml(augment.name)}"></option>`).join("")}
+        </datalist>
+        <button type="button" data-planner-action="add">加入</button>
+        ${selected.length ? `<button type="button" class="secondary-action" data-planner-action="reset">重置</button>` : ""}
+      </div>
+
+      <div class="planner-next">
+        <span>下一手可优先看</span>
+        <div>
+          ${candidates
+            .map(
+              (augment) => `
+                <button type="button" data-planner-action="pick" data-augment-name="${escapeHtml(augment.name)}">
+                  <strong>${escapeHtml(augment.name)}</strong>
+                  <small>${escapeHtml(augment.tier || "强化")} · ${escapeHtml(augment.winRate || augment.reason || "可选")}</small>
+                </button>
+              `
+            )
+            .join("") || `<em>该英雄暂无可继续推荐的强化</em>`}
+        </div>
+      </div>
+
+      <div class="planner-routes">
+        ${routes.map(plannerRouteCard).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function plannerRouteCard(route) {
+  return `
+    <article class="planner-route ${escapeHtml(route.kind)}">
+      <div class="planner-route-head">
+        <span>${escapeHtml(route.badge)}</span>
+        <strong>${escapeHtml(route.title)}</strong>
+      </div>
+      <p>${escapeHtml(route.reason)}</p>
+      <div class="planner-route-block">
+        <small>后续强化</small>
+        <div class="planner-mini-tags">
+          ${route.nextAugments.map((augment) => `<b>${escapeHtml(augment)}</b>`).join("") || `<b>按高胜率补强</b>`}
+        </div>
+      </div>
+      <div class="planner-route-block">
+        <small>装备路线</small>
+        <div class="item-path">${escapeHtml(route.items.join(" → ") || "按默认核心出装")}</div>
+      </div>
+      <small>${escapeHtml(route.condition)}</small>
+    </article>
+  `;
+}
+
+function plannerKey(data) {
+  return data.champion?.id || data.champion?.displayName || "unknown";
+}
+
+function resolveAugmentInput(value, data) {
+  const key = normalize(value);
+  if (!key) return "";
+  const pool = augmentPool(data);
+  const exact = pool.find((augment) => normalize(augment.name) === key);
+  if (exact) return exact.name;
+  const fuzzy = pool.find((augment) => normalize(augment.name).includes(key) || key.includes(normalize(augment.name)));
+  return fuzzy?.name || value.trim();
+}
+
+function augmentPool(data) {
+  const map = new Map();
+  const add = (augment) => {
+    const name = typeof augment === "string" ? augment : augment?.name;
+    if (!name) return;
+    const key = normalize(name);
+    if (!map.has(key)) map.set(key, typeof augment === "string" ? { name, reason: "创作者套路" } : augment);
+  };
+  (data.augments || []).forEach(add);
+  (data.branches || []).forEach(add);
+  (data.creatorTricks || []).forEach((trick) => (trick.augments || []).forEach(add));
+  return Array.from(map.values());
+}
+
+function selectedMatches(selected, text) {
+  const target = normalize(text);
+  return selected.some((item) => {
+    const key = normalize(item);
+    return key && target && (target.includes(key) || key.includes(target));
+  });
+}
+
+function matchingBranches(data, selected) {
+  const branches = data.branches || [];
+  if (!selected.length) return branches;
+  const direct = branches.filter((branch) =>
+    selected.some((name) => normalize(branch.name) === normalize(name) || selectedMatches([name], `${branch.name} ${branch.label} ${branch.description}`))
+  );
+  if (direct.length) return direct;
+  return branches.filter((branch) => selected.some((name) => selectedMatches([name], `${branch.label} ${branch.reason}`)));
+}
+
+function matchingTricks(data, selected) {
+  const tricks = data.creatorTricks || [];
+  if (!selected.length) return tricks;
+  return tricks.filter((trick) =>
+    selected.some((name) => selectedMatches([name], `${trick.title} ${trick.idea} ${trick.condition} ${(trick.augments || []).join(" ")}`))
+  );
+}
+
+function buildPlannerRoutes(data, selected) {
+  const branches = matchingBranches(data, selected);
+  const tricks = matchingTricks(data, selected);
+  const stableBranch = branches[0] || (data.branches || [])[0];
+  const secondBranch =
+    branches.find((branch) => branch.label !== stableBranch?.label) ||
+    (data.branches || []).find((branch) => branch.label !== stableBranch?.label) ||
+    stableBranch;
+  const trick = tricks[0] || (data.creatorTricks || [])[0];
+  const stableNext = recommendNextAugments(data, selected, 4, stableBranch?.label).map((augment) => augment.name);
+  const creativeNext = trick
+    ? (trick.augments || []).filter((name) => !selected.some((item) => normalize(item) === normalize(name))).slice(0, 4)
+    : recommendNextAugments(data, selected, 4, secondBranch?.label).map((augment) => augment.name);
+
+  const stableItems = stableBranch?.items?.length ? stableBranch.items : bestRow(data.build?.core)?.items || [];
+  const creativeItems = trick?.items?.length
+    ? trick.items
+    : secondBranch?.items?.length
+      ? secondBranch.items
+      : stableItems;
+
+  return [
+    {
+      kind: "stable",
+      badge: "路线 A",
+      title: selected.length ? "稳健收敛线" : "先拿高胜率通用线",
+      reason: stableBranch?.reason || "先围绕该英雄最高胜率核心出装，后续强化优先补稳定触发。",
+      nextAugments: stableNext,
+      items: stableItems,
+      condition: selected.length ? "适合想稳住胜率、阵容不确定时继续走。" : "还没锁强化时，优先按默认核心和高胜率强化走。"
+    },
+    {
+      kind: "creative",
+      badge: "路线 B",
+      title: trick?.title || secondBranch?.label || "高上限转装线",
+      reason: trick?.idea || secondBranch?.reason || "如果后续强化继续指向同一机制，可以切到更高上限的转装。",
+      nextAugments: creativeNext,
+      items: creativeItems,
+      condition: trick?.condition || "需要后续强化和阵容环境配合；没有成型条件时回到路线 A。"
+    }
+  ];
+}
+
+function recommendNextAugments(data, selected, limit = 6, preferredLabel = "") {
+  const used = new Set(selected.map(normalize));
+  const branches = (data.branches || []).filter((branch) => !used.has(normalize(branch.name)));
+  const preferred = preferredLabel ? branches.filter((branch) => branch.label === preferredLabel) : [];
+  const rest = branches.filter((branch) => !preferred.includes(branch));
+  const ranked = [...preferred, ...rest].sort((a, b) => augmentScore(b, selected, preferredLabel) - augmentScore(a, selected, preferredLabel));
+  const items = ranked.slice(0, limit).map((branch) => ({
+    name: branch.name,
+    tier: branch.tier,
+    winRate: branch.winRate,
+    reason: branch.label
+  }));
+
+  if (items.length >= limit) return items;
+  for (const trick of data.creatorTricks || []) {
+    for (const name of trick.augments || []) {
+      if (items.length >= limit) return items;
+      if (!used.has(normalize(name)) && !items.some((item) => normalize(item.name) === normalize(name))) {
+        items.push({ name, tier: "套路", reason: trick.title });
+      }
+    }
+  }
+  return items;
+}
+
+function augmentScore(branch, selected, preferredLabel = "") {
+  let score = Number.parseFloat(branch.winRate) || 0;
+  if (branch.label === preferredLabel) score += 8;
+  if (selected.length && selected.some((name) => selectedMatches([name], `${branch.label} ${branch.reason} ${branch.description}`))) score += 6;
+  const tier = normalizeTier(branch.tier);
+  if (tier === "金色") score += 3;
+  if (tier === "棱彩") score += 2;
+  if (tier === "银色") score += 1;
+  return score;
 }
 
 function championSplash(champion = {}) {
