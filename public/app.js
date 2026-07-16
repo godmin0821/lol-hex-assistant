@@ -6,6 +6,7 @@ const statusEl = document.querySelector("#status");
 const sampleNames = ["阿狸", "亚索", "卡莎", "永恩", "光辉", "盲僧", "薇恩"];
 let sampleIndex = 0;
 let staticIndexPromise = null;
+let globalMeta = null;
 
 const commonAliases = {
   狐狸: "ahri",
@@ -61,6 +62,8 @@ setInterval(() => {
     sampleIndex += 1;
   }
 }, 1800);
+
+loadGlobalMeta();
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -154,6 +157,15 @@ async function loadStaticIndex() {
     });
   }
   return staticIndexPromise;
+}
+
+async function loadGlobalMeta() {
+  try {
+    const response = await fetch("data/meta.json");
+    if (response.ok) globalMeta = await response.json();
+  } catch {
+    globalMeta = null;
+  }
 }
 
 function findChampion(inputValue, champions) {
@@ -292,6 +304,9 @@ function resultHero(data) {
   const splash = championSplash(champion);
   const statsPatch = data.freshness.statsPatch || data.freshness.patch || "-";
   const dataLabel = statsPatch === data.freshness.patch ? "当前统计" : `${statsPatch} 统计`;
+  const poolLabel = globalMeta?.augments?.total && globalMeta?.items?.total
+    ? `全局池 ${globalMeta.augments.total} 强化 / ${globalMeta.items.total} 装备`
+    : "强化池按国服线上版本整理";
   return `
     <section class="result-hero">
       <img src="${splash}" alt="" />
@@ -307,7 +322,7 @@ function resultHero(data) {
           <span><b>${escapeHtml(data.summary?.winRate || "-")}</b>胜率</span>
           <span><b>${escapeHtml(data.freshness.patch || "-")}</b>线上版本</span>
         </div>
-        <small class="data-scope">${escapeHtml(dataLabel)} · ${escapeHtml(data.freshness.dataDate || "最近抓取")} · 强化池按国服线上版本整理</small>
+        <small class="data-scope">${escapeHtml(dataLabel)} · ${escapeHtml(data.freshness.dataDate || "最近抓取")} · ${escapeHtml(poolLabel)}</small>
         <p>${escapeHtml(data.verdict)}</p>
       </div>
     </section>

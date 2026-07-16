@@ -36,6 +36,103 @@ async function fetchJson(url, options) {
   return data;
 }
 
+async function fetchText(url) {
+  const response = await fetch(url, {
+    headers: { "user-agent": "lol-hex-assistant/1.0" }
+  });
+  const text = await response.text();
+  if (!response.ok) throw new Error(`${url}: ${response.status} ${response.statusText}`);
+  return text;
+}
+
+function htmlLines(html) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/g, " ")
+    .replace(/<style[\s\S]*?<\/style>/g, " ")
+    .replace(/<[^>]+>/g, "\n")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&#39;/g, "'")
+    .split(/\n+/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+function parseAugmentCatalog(lines) {
+  const summary = lines.find((line) => /全部\s+\d+\s+个强化符文/.test(line)) || "";
+  const updated = lines.find((line) => /^数据更新\s+/.test(line))?.replace("数据更新", "").trim() || "";
+  const total = Number(summary.match(/全部\s+(\d+)\s+个强化符文/)?.[1] || 0);
+  const tierCount = (tier) => {
+    const index = lines.findIndex((line) => line === tier);
+    const value = Number(lines[index + 1] || 0);
+    return Number.isFinite(value) ? value : 0;
+  };
+  const top = [];
+  const start = lines.findIndex((line) => line === "排名");
+  for (let i = Math.max(0, start); i < lines.length - 5 && top.length < 20; i += 1) {
+    if (!/^\d+$/.test(lines[i])) continue;
+    let name = lines[i + 1];
+    let offset = 2;
+    const isNew = lines[i + 2] === "新";
+    if (isNew) offset = 3;
+    const tier = lines[i + offset];
+    const winRate = lines[i + offset + 1];
+    const pickRate = lines[i + offset + 2];
+    if (!["棱彩", "金色", "银色"].includes(tier) || !/%$/.test(winRate)) continue;
+    top.push({ rank: Number(lines[i]), name, isNew, tier, winRate, pickRate });
+  }
+  return {
+    total,
+    updated,
+    tiers: {
+      prismatic: tierCount("棱彩"),
+      gold: tierCount("金色"),
+      silver: tierCount("银色")
+    },
+    top
+  };
+}
+
+function parseItemCatalog(lines) {
+  const summary = lines.find((line) => /全部\s+\d+\s+件装备/.test(line)) || "";
+  const total = Number(summary.match(/全部\s+(\d+)\s+件装备/)?.[1] || 0);
+  const adjusted = lines.filter((line) => line === "已调整").length;
+  const top = [];
+  const start = lines.findIndex((line) => line === "传说");
+  for (let i = Math.max(0, start); i < lines.length - 2 && top.length < 30; i += 1) {
+    const type = lines[i];
+    if (!["传说", "起始", "消耗品"].includes(type)) continue;
+    let name = lines[i + 1];
+    let offset = 2;
+    let isAdjusted = false;
+    if (name === "已调整") {
+      isAdjusted = true;
+      name = lines[i + 2];
+      offset = 3;
+    }
+    const price = lines[i + offset];
+    if (!/^\d+g$/.test(price || "")) continue;
+    top.push({ type, name, price, isAdjusted });
+  }
+  return { total, adjusted, top };
+}
+
+async function fetchGlobalMeta() {
+  const [augmentHtml, itemHtml] = await Promise.all([
+    fetchText("https://arammayhem.com/zh-cn/augments/"),
+    fetchText("https://arammayhem.com/zh-cn/items/")
+  ]);
+  return {
+    exportedAt: new Date().toISOString(),
+    augments: parseAugmentCatalog(htmlLines(augmentHtml)),
+    items: parseItemCatalog(htmlLines(itemHtml)),
+    sources: [
+      { name: "ARAM Mayhem 强化符文", url: "https://arammayhem.com/zh-cn/augments/" },
+      { name: "ARAM Mayhem 装备", url: "https://arammayhem.com/zh-cn/items/" }
+    ]
+  };
+}
+
 async function recommend(champion) {
   return fetchJson(`${baseUrl}/api/recommend`, {
     method: "POST",
@@ -91,6 +188,9 @@ await writeFile(
   path.join(docsDir, "data", "champions.json"),
   JSON.stringify({ ...index, exportedAt: new Date().toISOString(), items: index.items }, null, 2)
 );
+
+const globalMeta = await fetchGlobalMeta();
+await writeFile(path.join(docsDir, "data", "meta.json"), JSON.stringify(globalMeta, null, 2));
 
 let ok = 0;
 let failed = 0;

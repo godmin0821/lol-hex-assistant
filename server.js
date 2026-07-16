@@ -723,7 +723,7 @@ function situationalItems(profile, label) {
   if (profile === "mage") {
     if (label === "生存拉扯流") return ["中娅沙漏", "女妖面纱", "星界驱驰"];
     if (label === "普攻特效流") return ["纳什之牙", "巫妖之祸", "中娅沙漏"];
-    if (label === "技能命中/消耗流") return ["兰德里的苦楚", "虚空之杖", "中娅沙漏"];
+    if (label === "技能命中/消耗流") return ["兰德里的折磨", "虚空之杖", "中娅沙漏"];
     return ["灭世者的死亡之帽", "虚空之杖", "中娅沙漏"];
   }
   if (profile === "bruiser") {

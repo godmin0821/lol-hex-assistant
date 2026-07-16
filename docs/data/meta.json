@@ -1,0 +1,370 @@
+{
+  "exportedAt": "2026-07-16T07:03:17.916Z",
+  "augments": {
+    "total": 199,
+    "updated": "7月15日",
+    "tiers": {
+      "prismatic": 69,
+      "gold": 74,
+      "silver": 56
+    },
+    "top": [
+      {
+        "rank": 1,
+        "name": "坦克引擎",
+        "isNew": false,
+        "tier": "金色",
+        "winRate": "67.14%",
+        "pickRate": "67.48%"
+      },
+      {
+        "rank": 2,
+        "name": "任务：钢化你心",
+        "isNew": false,
+        "tier": "金色",
+        "winRate": "48.77%",
+        "pickRate": "65.63%"
+      },
+      {
+        "rank": 3,
+        "name": "暴击飞弹",
+        "isNew": false,
+        "tier": "金色",
+        "winRate": "51.73%",
+        "pickRate": "64.57%"
+      },
+      {
+        "rank": 4,
+        "name": "升级：无尽之刃",
+        "isNew": false,
+        "tier": "金色",
+        "winRate": "59.63%",
+        "pickRate": "63.71%"
+      },
+      {
+        "rank": 5,
+        "name": "重量级打击手",
+        "isNew": false,
+        "tier": "银色",
+        "winRate": "68.99%",
+        "pickRate": "63.70%"
+      },
+      {
+        "rank": 6,
+        "name": "飞身踢",
+        "isNew": false,
+        "tier": "棱彩",
+        "winRate": "53.92%",
+        "pickRate": "62.77%"
+      },
+      {
+        "rank": 7,
+        "name": "亮出你的剑",
+        "isNew": false,
+        "tier": "棱彩",
+        "winRate": "20.83%",
+        "pickRate": "62.43%"
+      },
+      {
+        "rank": 8,
+        "name": "无限循环往复",
+        "isNew": false,
+        "tier": "棱彩",
+        "winRate": "37.82%",
+        "pickRate": "62.18%"
+      },
+      {
+        "rank": 9,
+        "name": "术士果汁盒",
+        "isNew": true,
+        "tier": "金色",
+        "winRate": "57.07%",
+        "pickRate": "62.12%"
+      },
+      {
+        "rank": 10,
+        "name": "超凡邪恶",
+        "isNew": false,
+        "tier": "金色",
+        "winRate": "50.54%",
+        "pickRate": "61.71%"
+      },
+      {
+        "rank": 11,
+        "name": "歌利亚巨人",
+        "isNew": false,
+        "tier": "棱彩",
+        "winRate": "46.41%",
+        "pickRate": "60.99%"
+      },
+      {
+        "rank": 12,
+        "name": "尤里卡",
+        "isNew": false,
+        "tier": "棱彩",
+        "winRate": "54.68%",
+        "pickRate": "60.98%"
+      },
+      {
+        "rank": 13,
+        "name": "双刀流",
+        "isNew": false,
+        "tier": "棱彩",
+        "winRate": "41.32%",
+        "pickRate": "59.92%"
+      },
+      {
+        "rank": 14,
+        "name": "魔法飞弹",
+        "isNew": false,
+        "tier": "金色",
+        "winRate": "54.92%",
+        "pickRate": "59.60%"
+      },
+      {
+        "rank": 15,
+        "name": "双发快射",
+        "isNew": false,
+        "tier": "金色",
+        "winRate": "38.75%",
+        "pickRate": "59.47%"
+      },
+      {
+        "rank": 16,
+        "name": "任务：艾卡西亚的陷落",
+        "isNew": false,
+        "tier": "棱彩",
+        "winRate": "15.71%",
+        "pickRate": "58.78%"
+      },
+      {
+        "rank": 17,
+        "name": "炼狱导管",
+        "isNew": false,
+        "tier": "棱彩",
+        "winRate": "38.77%",
+        "pickRate": "58.74%"
+      },
+      {
+        "rank": 18,
+        "name": "虚幻武器",
+        "isNew": false,
+        "tier": "金色",
+        "winRate": "55.86%",
+        "pickRate": "58.71%"
+      },
+      {
+        "rank": 19,
+        "name": "牙仙子",
+        "isNew": true,
+        "tier": "金色",
+        "winRate": "43.99%",
+        "pickRate": "58.51%"
+      },
+      {
+        "rank": 20,
+        "name": "灵巧",
+        "isNew": false,
+        "tier": "银色",
+        "winRate": "44.48%",
+        "pickRate": "58.13%"
+      }
+    ]
+  },
+  "items": {
+    "total": 200,
+    "adjusted": 28,
+    "top": [
+      {
+        "type": "传说",
+        "name": "三相之力",
+        "price": "3333g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "不朽盾弓",
+        "price": "3000g",
+        "isAdjusted": true
+      },
+      {
+        "type": "传说",
+        "name": "中娅沙漏",
+        "price": "3250g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "亡者的板甲",
+        "price": "2900g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "亵渎九头蛇",
+        "price": "2850g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "公理圆弧",
+        "price": "2750g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "兰德里的折磨",
+        "price": "3000g",
+        "isAdjusted": true
+      },
+      {
+        "type": "传说",
+        "name": "兰顿之兆",
+        "price": "2700g",
+        "isAdjusted": true
+      },
+      {
+        "type": "传说",
+        "name": "冰脉护手",
+        "price": "2900g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "冰霜之心",
+        "price": "2500g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "凛冬之临",
+        "price": "2400g",
+        "isAdjusted": true
+      },
+      {
+        "type": "传说",
+        "name": "凡性的提醒",
+        "price": "3000g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "千变者贾修",
+        "price": "3200g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "卢安娜的飓风",
+        "price": "2650g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "卢登的回声",
+        "price": "2750g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "原生质护带",
+        "price": "2500g",
+        "isAdjusted": true
+      },
+      {
+        "type": "传说",
+        "name": "基克的聚合",
+        "price": "2200g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "多米尼克领主的致意",
+        "price": "3300g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "夜之锋刃",
+        "price": "3000g",
+        "isAdjusted": true
+      },
+      {
+        "type": "传说",
+        "name": "大天使之杖",
+        "price": "2900g",
+        "isAdjusted": true
+      },
+      {
+        "type": "传说",
+        "name": "夺萃之镰",
+        "price": "2900g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "女妖面纱",
+        "price": "3000g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "实现器",
+        "price": "3100g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "岚切",
+        "price": "3200g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "巨型九头蛇",
+        "price": "3300g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "巨蛇之牙",
+        "price": "2500g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "巫妖之祸",
+        "price": "2900g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "帝国指令",
+        "price": "2250g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "幻影之舞",
+        "price": "2650g",
+        "isAdjusted": false
+      },
+      {
+        "type": "传说",
+        "name": "幽梦之灵",
+        "price": "2800g",
+        "isAdjusted": true
+      }
+    ]
+  },
+  "sources": [
+    {
+      "name": "ARAM Mayhem 强化符文",
+      "url": "https://arammayhem.com/zh-cn/augments/"
+    },
+    {
+      "name": "ARAM Mayhem 装备",
+      "url": "https://arammayhem.com/zh-cn/items/"
+    }
+  ]
+}
