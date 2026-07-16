@@ -1,5 +1,5 @@
 {
-  "count": 172,
+  "count": 173,
   "query": "",
   "items": [
     {
@@ -379,6 +379,13 @@
       "zhName": "荒漠屠夫",
       "title": "雷克顿",
       "slug": "renekton"
+    },
+    {
+      "id": "Locke",
+      "enName": "Locke",
+      "zhName": "灰烬驱魔人",
+      "title": "洛克",
+      "slug": "locke"
     },
     {
       "id": "Thresh",
@@ -1207,5 +1214,5 @@
       "slug": "warwick"
     }
   ],
-  "exportedAt": "2026-05-31T03:57:49.148Z"
+  "exportedAt": "2026-07-16T06:48:25.615Z"
 }

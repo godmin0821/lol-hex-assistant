@@ -44,6 +44,42 @@ async function recommend(champion) {
   });
 }
 
+function placeholderRecommendation(champion, freshness, error) {
+  const name = champion.title || champion.zhName || champion.enName;
+  const patch = freshness?.patch || freshness?.statsPatch || "最新";
+  return {
+    champion,
+    updatedAt: new Date().toISOString(),
+    freshness: {
+      patch,
+      statsPatch: freshness?.statsPatch || patch,
+      dataDate: freshness?.dataDate || "",
+      sourceCount: 1,
+      championDataCount: freshness?.championDataCount || 0,
+      patchNotesUrl: freshness?.patchNotesUrl || "https://www.leagueoflegends.com/en-us/news/game-updates/"
+    },
+    verdict: `${name} 已进入当前英雄库，但 ARAM Mayhem 暂未收录该英雄的海克斯大乱斗统计页。不要套用旧英雄模板，等统计源上线后再刷新。`,
+    summary: { tier: "待收录", winRate: "-", patch, statsPatch: freshness?.statsPatch || patch, source: "等待统计源" },
+    skillOrders: [],
+    build: { starting: [], boots: [], core: [], late: [] },
+    augments: [],
+    branches: [],
+    caveats: [
+      "该英雄已有客户端资料，但当前统计源暂未提供海克斯大乱斗数据。",
+      "为了避免误导，这里不生成伪攻略；建议先按英雄常规定位出装，等样本量出现后再刷新。"
+    ],
+    sources: [
+      {
+        name: "ARAM Mayhem 暂未收录",
+        url: `https://arammayhem.com/zh-cn/build/${champion.slug || champion.enName || champion.id}/`,
+        ok: false,
+        snippets: [error.message]
+      }
+    ],
+    socialSearches: []
+  };
+}
+
 await rm(docsDir, { recursive: true, force: true });
 await copyDir(publicDir, docsDir);
 await writeFile(path.join(docsDir, ".nojekyll"), "");
@@ -58,9 +94,12 @@ await writeFile(
 
 let ok = 0;
 let failed = 0;
+let placeholder = 0;
+let latestFreshness = null;
 for (const champion of champions) {
   try {
     const data = await recommend(champion);
+    latestFreshness = data.freshness || latestFreshness;
     await writeFile(
       path.join(docsDir, "data", "recommendations", `${champion.id}.json`),
       JSON.stringify(data, null, 2)
@@ -68,9 +107,15 @@ for (const champion of champions) {
     ok += 1;
     console.log(`[${ok}/${champions.length}] ${champion.title || champion.zhName || champion.enName}`);
   } catch (error) {
-    failed += 1;
-    console.warn(`[failed] ${champion.title || champion.zhName || champion.enName}: ${error.message}`);
+    const data = placeholderRecommendation(champion, latestFreshness, error);
+    await writeFile(
+      path.join(docsDir, "data", "recommendations", `${champion.id}.json`),
+      JSON.stringify(data, null, 2)
+    );
+    placeholder += 1;
+    ok += 1;
+    console.warn(`[placeholder] ${champion.title || champion.zhName || champion.enName}: ${error.message}`);
   }
 }
 
-console.log(`Static export complete: ${ok} ok, ${failed} failed, output=${docsDir}`);
+console.log(`Static export complete: ${ok} ok, ${placeholder} placeholder, ${failed} failed, output=${docsDir}`);

@@ -1,0 +1,50 @@
+{
+  "champion": {
+    "id": "Locke",
+    "enName": "Locke",
+    "zhName": "灰烬驱魔人",
+    "title": "洛克",
+    "slug": "locke"
+  },
+  "updatedAt": "2026-07-16T06:48:56.418Z",
+  "freshness": {
+    "patch": "26.14",
+    "statsPatch": "26.14",
+    "dataDate": "20260710",
+    "sourceCount": 1,
+    "championDataCount": 173,
+    "patchNotesUrl": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-14-notes/"
+  },
+  "verdict": "洛克 已进入当前英雄库，但 ARAM Mayhem 暂未收录该英雄的海克斯大乱斗统计页。不要套用旧英雄模板，等统计源上线后再刷新。",
+  "summary": {
+    "tier": "待收录",
+    "winRate": "-",
+    "patch": "26.14",
+    "statsPatch": "26.14",
+    "source": "等待统计源"
+  },
+  "skillOrders": [],
+  "build": {
+    "starting": [],
+    "boots": [],
+    "core": [],
+    "late": []
+  },
+  "augments": [],
+  "branches": [],
+  "caveats": [
+    "该英雄已有客户端资料，但当前统计源暂未提供海克斯大乱斗数据。",
+    "为了避免误导，这里不生成伪攻略；建议先按英雄常规定位出装，等样本量出现后再刷新。"
+  ],
+  "sources": [
+    {
+      "name": "ARAM Mayhem 暂未收录",
+      "url": "https://arammayhem.com/zh-cn/build/locke/",
+      "ok": false,
+      "snippets": [
+        "404 Not Found"
+      ]
+    }
+  ],
+  "socialSearches": []
+}

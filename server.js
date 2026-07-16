@@ -9,9 +9,6 @@ const port = Number(process.env.PORT || 4173);
 const host = process.env.HOST || "127.0.0.1";
 
 const CACHE_MS = 1000 * 60 * 20;
-const LIVE_MAYHEM_PATCH = "26.11";
-const LIVE_MAYHEM_PATCH_NOTES =
-  "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-11-notes/";
 const pageCache = new Map();
 let championCache = null;
 let itemNameCache = null;
@@ -287,6 +284,12 @@ const augmentZhNames = {
 
 const ddg = (query) =>
   `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+
+function patchNotesUrl(patch) {
+  const normalized = String(patch || "").match(/\d{2}\.\d{1,2}/)?.[0];
+  if (!normalized) return "https://www.leagueoflegends.com/en-us/news/game-updates/";
+  return `https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-${normalized.replace(".", "-")}-notes/`;
+}
 
 function normalize(value) {
   return String(value || "")
@@ -765,6 +768,7 @@ function parseMayhemPage(html, champion, sourceSlug = champion.slug) {
   const pageChampionName = lines.find((line) => line.includes("海克斯大乱斗出装"))?.split(" ")[0] || championName;
   const desc = meta.desc || lines.find((line) => line.includes("胜率") && line.includes("版本")) || "";
   const patch = desc.match(/(\d{2}\.\d{1,2})版本/)?.[1] || meta.title.match(/（(\d{2}\.\d{1,2})）/)?.[1] || "最新";
+  const notesUrl = patchNotesUrl(patch);
   const dataDate = lines.find((line) => line.startsWith("数据日期:"))?.replace("数据日期:", "").trim() || "";
   const tier = desc.match(/([SABC][+]?|D)级强度/)?.[1] || lines.find((line) => /^[SABC][+]?|D$/.test(line)) || "";
   const winRate = desc.match(/胜率\s*([0-9.]+%)/)?.[1] || "";
@@ -789,15 +793,15 @@ function parseMayhemPage(html, champion, sourceSlug = champion.slug) {
     },
     updatedAt: new Date().toISOString(),
     freshness: {
-      patch: LIVE_MAYHEM_PATCH,
+      patch,
       statsPatch: patch,
       dataDate,
       sourceCount: 2,
       championDataCount: championCache?.count || 0,
-      patchNotesUrl: LIVE_MAYHEM_PATCH_NOTES
+      patchNotesUrl: notesUrl
     },
     verdict: `${pageChampionName} 当前统计快照为 ${patch}：${tier || "未知"} 级，胜率 ${winRate || "暂无"}。下方按强化品质给出同职业装备路线。`,
-    summary: { tier, winRate, patch: LIVE_MAYHEM_PATCH, statsPatch: patch, source: "ARAM Mayhem" },
+    summary: { tier, winRate, patch, statsPatch: patch, source: "ARAM Mayhem" },
     skillOrders: parseSkillOrders(lines),
     build,
     augments,
@@ -818,10 +822,10 @@ function parseMayhemPage(html, champion, sourceSlug = champion.slug) {
         ].filter(Boolean)
       },
       {
-        name: "Riot 26.11 官方公告",
-        url: LIVE_MAYHEM_PATCH_NOTES,
+        name: `Riot ${patch} 官方公告`,
+        url: notesUrl,
         ok: true,
-        snippets: ["国服当前线上版本：26.11", "强化推荐使用 ARAM Mayhem 当前统计快照"]
+        snippets: [`当前线上版本：${patch}`, "强化推荐使用 ARAM Mayhem 当前统计快照"]
       }
     ],
     socialSearches: [
