@@ -10,7 +10,7 @@
     "displayName": "血港鬼影",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/pyke/"
   },
-  "updatedAt": "2026-07-16T07:05:22.299Z",
+  "updatedAt": "2026-07-16T07:51:18.293Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -580,6 +580,28 @@
         "凡性的提醒"
       ],
       "reason": "强化直接放大技能收益。保持基础核心，补充同体系的法强、穿透或保命装备。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "乐子",
+      "title": "牙仙子鬼天帝",
+      "idea": "用牙仙子和移速把派克做成超长控制/高速游走收割。",
+      "augments": [
+        "牙仙子",
+        "移速",
+        "技能急速",
+        "收割"
+      ],
+      "items": [
+        "幽梦之灵",
+        "公理圆弧",
+        "夜之锋刃",
+        "赛瑞尔达的怨恨"
+      ],
+      "condition": "优势局很爽，劣势局别孤身进场，先等队友打残再 R。",
+      "sourceUrl": "https://www.douyin.com/video/7650218745335467305",
+      "sourceNote": "抖音公开作品标题提到牙仙子派克。"
     }
   ],
   "caveats": [

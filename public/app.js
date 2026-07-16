@@ -273,6 +273,7 @@ function render(data) {
     ${loadoutOverview(data)}
     ${mobileTierNav(data)}
     ${mindMapSection(data)}
+    ${creatorTricksSection(data)}
     ${buildSection(data)}
     ${augmentSection(data)}
     ${branchSection(data)}
@@ -573,6 +574,43 @@ function buildSection(data) {
         ${buildGroup("补装/组件倾向", build.late)}
       </div>
     </section>
+  `;
+}
+
+function creatorTricksSection(data) {
+  const tricks = data.creatorTricks || [];
+  if (!tricks.length) return "";
+  return `
+    <section class="creator-tricks" aria-label="创作者黑科技套路">
+      <div class="creator-head">
+        <div>
+          <p class="eyebrow">创作者套路</p>
+          <h3>有特定强化时，可以切这些黑科技</h3>
+        </div>
+        <span>来自抖音公开视频标题提炼，实战先看触发条件</span>
+      </div>
+      <div class="trick-list">
+        ${tricks.map(creatorTrickCard).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function creatorTrickCard(trick) {
+  return `
+    <article class="trick-card">
+      <div class="trick-top">
+        <span>${escapeHtml(trick.creator || "创作者")}</span>
+        <strong>${escapeHtml(trick.title || "黑科技路线")}</strong>
+      </div>
+      <p>${escapeHtml(trick.idea || "")}</p>
+      <div class="trick-tags">
+        ${(trick.augments || []).slice(0, 5).map((augment) => `<b>${escapeHtml(augment)}</b>`).join("")}
+      </div>
+      <div class="item-path">${escapeHtml((trick.items || []).join(" → "))}</div>
+      <small>${escapeHtml(trick.condition || "")}</small>
+      ${trick.sourceUrl ? `<a href="${escapeHtml(trick.sourceUrl)}" target="_blank" rel="noreferrer">看来源灵感</a>` : ""}
+    </article>
   `;
 }
 

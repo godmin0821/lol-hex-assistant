@@ -10,7 +10,7 @@
     "displayName": "披甲龙龟",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/rammus/"
   },
-  "updatedAt": "2026-07-16T07:04:35.902Z",
+  "updatedAt": "2026-07-16T07:50:28.884Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -565,6 +565,28 @@
         "振奋盔甲"
       ],
       "reason": "强化给生存或移速收益。沿用基础核心并补容错，利用长线团战反复进出场。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "乐子",
+      "title": "蛋白粉攻速龙龟",
+      "idea": "把龙龟从纯挨打转成高攻速反击玩法，靠攻速强化放大 W/E 后的普攻频率。",
+      "augments": [
+        "蛋白粉",
+        "攻速",
+        "普攻特效",
+        "双抗成长"
+      ],
+      "items": [
+        "花晓之剑",
+        "荆棘之甲",
+        "智慧末刃",
+        "千变者贾修"
+      ],
+      "condition": "偏娱乐，上限依赖强化；没有攻速强化时仍按反甲坦克路线。",
+      "sourceUrl": "https://www.douyin.com/video/7629818939480083753",
+      "sourceNote": "抖音公开置顶作品提到蛋白粉攻速龙龟。"
     }
   ],
   "caveats": [

@@ -10,7 +10,7 @@
     "displayName": "迅捷斥候",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/teemo/"
   },
-  "updatedAt": "2026-07-16T07:05:22.559Z",
+  "updatedAt": "2026-07-16T07:51:18.548Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -582,6 +582,28 @@
         "中娅沙漏"
       ],
       "reason": "强化靠技能命中或持续触发打收益。保持英雄原本的装备体系，优先选择能稳定触发、提高持续作战的补装。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "云顶张三 / 乐子",
+      "title": "大法师蘑菇流",
+      "idea": "围绕 R 的频率和蘑菇覆盖率打地图控制，核心不是正面秒人，而是持续分割战场。",
+      "augments": [
+        "大法师",
+        "纯粹主义者",
+        "技能急速",
+        "法强成长"
+      ],
+      "items": [
+        "兰德里的折磨",
+        "影焰",
+        "灭世者的死亡之帽",
+        "虚空之杖"
+      ],
+      "condition": "拿到缩短大招循环的强化再重度投资；逆风先补中娅或女妖。",
+      "sourceUrl": "https://www.douyin.com/video/7652383110165302574",
+      "sourceNote": "两个作者都提到大法师提莫无限蘑菇思路。"
     }
   ],
   "caveats": [

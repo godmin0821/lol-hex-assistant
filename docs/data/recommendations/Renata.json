@@ -10,7 +10,7 @@
     "displayName": "炼金男爵",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/renata/"
   },
-  "updatedAt": "2026-07-16T07:04:22.507Z",
+  "updatedAt": "2026-07-16T07:50:14.815Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -584,6 +584,27 @@
         "女妖面纱"
       ],
       "reason": "强化给生存或移速收益。沿用基础核心并补容错，利用长线团战反复进出场。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "乐子",
+      "title": "升级大帽 AP 烈娜塔",
+      "idea": "放大被动百分比伤害，把烈娜塔从纯功能辅助切到 AP 压血线玩法。",
+      "augments": [
+        "升级：灭世者的死亡之帽",
+        "法强成长",
+        "技能急速"
+      ],
+      "items": [
+        "灭世者的死亡之帽",
+        "影焰",
+        "虚空之杖",
+        "中娅沙漏"
+      ],
+      "condition": "适合队友能频繁触发你被动的阵容；缺保护时保留一件辅助装。",
+      "sourceUrl": "https://www.douyin.com/video/7656429125615324466",
+      "sourceNote": "抖音公开作品标题提到升级大帽 AP 烈娜塔。"
     }
   ],
   "caveats": [

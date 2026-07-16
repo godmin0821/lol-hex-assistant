@@ -10,7 +10,7 @@
     "displayName": "德玛西亚皇子",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/jarvaniv/"
   },
-  "updatedAt": "2026-07-16T07:03:41.243Z",
+  "updatedAt": "2026-07-16T07:49:28.762Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -586,6 +586,28 @@
         "荆棘之甲"
       ],
       "reason": "没有明显改玩法时，沿用最高胜率核心出装，再根据敌方阵容补穿透或保命。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "云顶张三 / 乐子",
+      "title": "地形专家 AP 自爆流",
+      "idea": "用皇子地形和进场触发强化，走 AP/灼烧路线打范围压制，偏娱乐但上限高。",
+      "augments": [
+        "地形专家",
+        "技能命中",
+        "法强成长",
+        "灼烧"
+      ],
+      "items": [
+        "兰德里的折磨",
+        "中娅沙漏",
+        "裂隙制造者",
+        "虚空之杖"
+      ],
+      "condition": "适合队友能跟伤害的阵容；如果你是唯一前排，不要强行 AP。",
+      "sourceUrl": "https://www.douyin.com/video/7649040876190043428",
+      "sourceNote": "两个作者都提到 AP 皇子/地形专家玩法。"
     }
   ],
   "caveats": [

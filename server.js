@@ -154,6 +154,207 @@ const sourceTemplates = [
   }
 ];
 
+const creatorTricks = [
+  {
+    championIds: ["Brand"],
+    creator: "云顶张三 / 乐子",
+    title: "灼烧不死流",
+    idea: "围绕持续灼烧和反复触发打长线团，适合对面近战多、你能持续蹭到人的局。",
+    augments: ["吃过路兵", "高压锅", "鲨鱼诱饵", "技能急速类"],
+    items: ["兰德里的折磨", "瑞莱的冰晶节杖", "中娅沙漏", "影焰"],
+    condition: "拿到持续触发或灼烧联动强化时优先；如果对面全是长手爆发，先补金身和血量。",
+    sourceUrl: "https://www.douyin.com/video/7655286836184616192",
+    sourceNote: "抖音公开作品标题提到火男被动灼烧与吃兵/破绽联动。"
+  },
+  {
+    championIds: ["MasterYi"],
+    creator: "云顶张三",
+    title: "爽局收割流",
+    idea: "用攻速和击杀刷新吃强化收益，核心是先活到第一轮收割，而不是无脑先进场。",
+    augments: ["普攻特效", "攻速", "收割", "生存拉扯"],
+    items: ["鬼索的狂暴之刃", "破败王者之刃", "智慧末刃", "死亡之舞"],
+    condition: "队友有前排或控制时再贪输出；没有进场环境就先补容错。",
+    sourceUrl: "https://www.douyin.com/video/7658153055742095738",
+    sourceNote: "抖音公开作品标题提到剑圣海斗爽局玩法。"
+  },
+  {
+    championIds: ["Karthus"],
+    creator: "云顶张三 / 乐子",
+    title: "术士无限大招流",
+    idea: "把死歌当团战启动器，强化优先找能放大 R 或缩短循环的选项。",
+    augments: ["术士果汁盒", "牙仙子", "大法师", "法强成长"],
+    items: ["兰德里的折磨", "灭世者的死亡之帽", "虚空之杖", "中娅沙漏"],
+    condition: "金色强化成型也能玩；如果对面有多件魔抗，第三件优先穿透。",
+    sourceUrl: "https://www.douyin.com/video/7649772732728544554",
+    sourceNote: "抖音公开作品标题提到死歌牙仙子和术士流。"
+  },
+  {
+    championIds: ["TahmKench"],
+    creator: "云顶张三 / 乐子",
+    title: "虚幻武器核爆流",
+    idea: "把塔姆 Q 和被动当爆发核心，拿到虚幻武器后优先堆能放大单次命中的伤害。",
+    augments: ["虚幻武器", "技能命中", "坦度转伤害"],
+    items: ["心之钢", "巨型九头蛇", "狂徒铠甲", "振奋盔甲"],
+    condition: "必须围绕命中率打，Q 空太多就回到坦克路线。",
+    sourceUrl: "https://www.douyin.com/video/7658359322975423778",
+    sourceNote: "两个作者都提到虚幻武器塔姆玩法。"
+  },
+  {
+    championIds: ["JarvanIV"],
+    creator: "云顶张三 / 乐子",
+    title: "地形专家 AP 自爆流",
+    idea: "用皇子地形和进场触发强化，走 AP/灼烧路线打范围压制，偏娱乐但上限高。",
+    augments: ["地形专家", "技能命中", "法强成长", "灼烧"],
+    items: ["兰德里的折磨", "中娅沙漏", "裂隙制造者", "虚空之杖"],
+    condition: "适合队友能跟伤害的阵容；如果你是唯一前排，不要强行 AP。",
+    sourceUrl: "https://www.douyin.com/video/7649040876190043428",
+    sourceNote: "两个作者都提到 AP 皇子/地形专家玩法。"
+  },
+  {
+    championIds: ["Jhin"],
+    creator: "云顶张三",
+    title: "踢踏舞烬",
+    idea: "围绕移速、拉扯和第四枪爆发打节奏，不追求站桩 DPS。",
+    augments: ["移速", "暴击", "技能急速", "收割"],
+    items: ["岚切", "无尽之刃", "收集者", "疾射火炮"],
+    condition: "对面突脸多时先补保命；拿到移速/拉扯强化体验最好。",
+    sourceUrl: "https://www.douyin.com/video/7654438397746854585",
+    sourceNote: "抖音公开作品标题提到踢踏舞烬。"
+  },
+  {
+    championIds: ["Teemo"],
+    creator: "云顶张三 / 乐子",
+    title: "大法师蘑菇流",
+    idea: "围绕 R 的频率和蘑菇覆盖率打地图控制，核心不是正面秒人，而是持续分割战场。",
+    augments: ["大法师", "纯粹主义者", "技能急速", "法强成长"],
+    items: ["兰德里的折磨", "影焰", "灭世者的死亡之帽", "虚空之杖"],
+    condition: "拿到缩短大招循环的强化再重度投资；逆风先补中娅或女妖。",
+    sourceUrl: "https://www.douyin.com/video/7652383110165302574",
+    sourceNote: "两个作者都提到大法师提莫无限蘑菇思路。"
+  },
+  {
+    championIds: ["Ashe"],
+    creator: "云顶张三 / 乐子",
+    title: "无限 R 指挥官",
+    idea: "弱化普攻输出，强化大招控制循环，适合队伍需要开团和留人的局。",
+    augments: ["大法师", "秘术冲拳", "技能急速", "控制延长"],
+    items: ["帝国指令", "公理圆弧", "魔宗", "赛瑞尔达的怨恨"],
+    condition: "伤害压力不够时不要全功能装，至少保留一到两件输出。",
+    sourceUrl: "https://www.douyin.com/video/7651639725190565120",
+    sourceNote: "两个作者都提到寒冰大招/秘术冲拳玩法。"
+  },
+  {
+    championIds: ["Udyr"],
+    creator: "乐子",
+    title: "秒坦爆发乌迪尔",
+    idea: "把乌迪尔做成近身爆发战士，目标是短窗口融化前排。",
+    augments: ["双刀流", "普攻特效", "移速", "近战爆发"],
+    items: ["三相之力", "破败王者之刃", "智慧末刃", "斯特拉克的挑战护手"],
+    condition: "需要能摸到人；如果对面风筝强，鞋子和移速强化优先级上升。",
+    sourceUrl: "https://www.douyin.com/video/7599326238699752738",
+    sourceNote: "抖音公开置顶作品提到乌迪尔秒坦出装。"
+  },
+  {
+    championIds: ["Rammus"],
+    creator: "乐子",
+    title: "蛋白粉攻速龙龟",
+    idea: "把龙龟从纯挨打转成高攻速反击玩法，靠攻速强化放大 W/E 后的普攻频率。",
+    augments: ["蛋白粉", "攻速", "普攻特效", "双抗成长"],
+    items: ["花晓之剑", "荆棘之甲", "智慧末刃", "千变者贾修"],
+    condition: "偏娱乐，上限依赖强化；没有攻速强化时仍按反甲坦克路线。",
+    sourceUrl: "https://www.douyin.com/video/7629818939480083753",
+    sourceNote: "抖音公开置顶作品提到蛋白粉攻速龙龟。"
+  },
+  {
+    championIds: ["Mordekaiser"],
+    creator: "乐子",
+    title: "蛋白粉/圣火灼烧铁男",
+    idea: "用攻速或持续灼烧强化放大铁男被动，近身后靠领域和持续伤害赢长线。",
+    augments: ["蛋白粉", "圣火", "高压锅", "坦度转伤害"],
+    items: ["裂隙制造者", "纳什之牙", "兰德里的折磨", "千变者贾修"],
+    condition: "蛋白粉走攻速，圣火/高压锅走灼烧，不要两套装备同时贪。",
+    sourceUrl: "https://www.douyin.com/video/7590825209142316338",
+    sourceNote: "抖音公开作品提到铁男蛋白粉和圣火灼烧玩法。"
+  },
+  {
+    championIds: ["Garen"],
+    creator: "乐子",
+    title: "快步 E 位移盖伦",
+    idea: "把盖伦的短板从摸不到人改成二段突进，围绕 E 的持续贴脸和斩杀打。",
+    augments: ["快步", "旋转收益", "移速", "爆发收割"],
+    items: ["黑色切割者", "死亡之舞", "斯特拉克的挑战护手", "自然之力"],
+    condition: "拿不到位移/移速强化就别过度追人，回到半肉战士。",
+    sourceUrl: "https://www.douyin.com/video/7659872846113443110",
+    sourceNote: "抖音公开作品标题提到快步 E 两段位移盖伦。"
+  },
+  {
+    championIds: ["Ezreal"],
+    creator: "乐子",
+    title: "双修暴击 EZ",
+    idea: "放弃固定三相思路，强化指向暴击或双修时，把 Q 的混合收益拉起来。",
+    augments: ["暴击", "双修", "技能命中", "收割"],
+    items: ["魔宗", "夺萃之镰", "无尽之刃", "多米尼克领主的致意"],
+    condition: "需要命中率支撑；如果 Q 命中差，传统三相/魔切更稳。",
+    sourceUrl: "https://www.douyin.com/video/7659109102441794856",
+    sourceNote: "抖音公开作品提到 EZ 放弃三相走双修暴击。"
+  },
+  {
+    championIds: ["Hecarim"],
+    creator: "乐子",
+    title: "保持坚定体修人马",
+    idea: "围绕 Q 的连续作战和双抗成长，把人马做成越打越硬的前排战士。",
+    augments: ["保持坚定", "双抗成长", "技能急速", "移速"],
+    items: ["焚天", "死亡之舞", "振奋盔甲", "千变者贾修"],
+    condition: "需要持续打满 Q；如果对面爆发秒人，先补抗性再追输出。",
+    sourceUrl: "https://www.douyin.com/video/7657083459650866467",
+    sourceNote: "抖音公开作品标题提到保持坚定体修人马。"
+  },
+  {
+    championIds: ["Renata"],
+    creator: "乐子",
+    title: "升级大帽 AP 烈娜塔",
+    idea: "放大被动百分比伤害，把烈娜塔从纯功能辅助切到 AP 压血线玩法。",
+    augments: ["升级：灭世者的死亡之帽", "法强成长", "技能急速"],
+    items: ["灭世者的死亡之帽", "影焰", "虚空之杖", "中娅沙漏"],
+    condition: "适合队友能频繁触发你被动的阵容；缺保护时保留一件辅助装。",
+    sourceUrl: "https://www.douyin.com/video/7656429125615324466",
+    sourceNote: "抖音公开作品标题提到升级大帽 AP 烈娜塔。"
+  },
+  {
+    championIds: ["Trundle"],
+    creator: "乐子",
+    title: "地形专家无限 E",
+    idea: "用柱子高频改变地形和分割战场，玩法核心是控位而不是单挑。",
+    augments: ["地形专家", "技能急速", "控制", "坦度"],
+    items: ["冰霜之心", "振奋盔甲", "心之钢", "千变者贾修"],
+    condition: "队伍缺开团时价值高；己方全短手时注意别用柱子卡队友。",
+    sourceUrl: "https://www.douyin.com/video/7653790771362991400",
+    sourceNote: "抖音公开作品标题提到巨魔无限 E。"
+  },
+  {
+    championIds: ["Pyke"],
+    creator: "乐子",
+    title: "牙仙子鬼天帝",
+    idea: "用牙仙子和移速把派克做成超长控制/高速游走收割。",
+    augments: ["牙仙子", "移速", "技能急速", "收割"],
+    items: ["幽梦之灵", "公理圆弧", "夜之锋刃", "赛瑞尔达的怨恨"],
+    condition: "优势局很爽，劣势局别孤身进场，先等队友打残再 R。",
+    sourceUrl: "https://www.douyin.com/video/7650218745335467305",
+    sourceNote: "抖音公开作品标题提到牙仙子派克。"
+  },
+  {
+    championIds: ["Swain"],
+    creator: "云顶张三",
+    title: "乌鸦 BUG 吸血流",
+    idea: "围绕大招持续战场和吸血强化，做成越多人围你越难死的团战核心。",
+    augments: ["持续治疗", "法强成长", "坦度", "技能急速"],
+    items: ["裂隙制造者", "兰德里的折磨", "中娅沙漏", "振奋盔甲"],
+    condition: "对面重伤多时不要只堆吸血，补抗性和金身更关键。",
+    sourceUrl: "https://www.douyin.com/video/7659662667040294629",
+    sourceNote: "抖音公开作品标题提到乌鸦特殊强化玩法。"
+  }
+];
+
 const knownAugments = [
   "ADAPt",
   "Apex Inventor",
@@ -761,6 +962,13 @@ function buildBranchAdvice(augment, build) {
   };
 }
 
+function getCreatorTricks(champion) {
+  const id = champion.id || champion.enName || "";
+  return creatorTricks
+    .filter((trick) => trick.championIds.includes(id))
+    .map(({ championIds, ...trick }) => trick);
+}
+
 function parseMayhemPage(html, champion, sourceSlug = champion.slug) {
   const lines = htmlLines(html);
   const meta = readMeta(html);
@@ -806,6 +1014,7 @@ function parseMayhemPage(html, champion, sourceSlug = champion.slug) {
     build,
     augments,
     branches,
+    creatorTricks: getCreatorTricks(champion),
     caveats: [
       "海克斯大乱斗是 5v5 单线团战，强化优先服务英雄机制，而不是照搬斗魂竞技场。",
       "开局和 7/11/15 级抽到的强化会改变出装方向；同一英雄不要死套一条装备线。",
@@ -1012,6 +1221,7 @@ function synthesize(champion, sourceResults) {
       : base.primaryPlan,
     augments: sourceAugments.length ? sourceAugments : base.augments,
     items: sourceItems.length ? sourceItems : base.items,
+    creatorTricks: getCreatorTricks(champion),
     signals,
     caveats: [
       "竞技场/海克斯玩法版本波动很快，推荐以页面标注版本和样本量为准。",

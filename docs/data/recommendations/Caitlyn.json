@@ -10,7 +10,7 @@
     "displayName": "皮城女警",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/caitlyn/"
   },
-  "updatedAt": "2026-07-16T07:04:36.179Z",
+  "updatedAt": "2026-07-16T07:50:29.198Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -572,6 +572,7 @@
       "reason": "强化靠技能命中或持续触发打收益。保持英雄原本的装备体系，优先选择能稳定触发、提高持续作战的补装。"
     }
   ],
+  "creatorTricks": [],
   "caveats": [
     "海克斯大乱斗是 5v5 单线团战，强化优先服务英雄机制，而不是照搬斗魂竞技场。",
     "开局和 7/11/15 级抽到的强化会改变出装方向；同一英雄不要死套一条装备线。",

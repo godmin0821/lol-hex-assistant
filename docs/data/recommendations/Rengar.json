@@ -10,7 +10,7 @@
     "displayName": "傲之追猎者",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/rengar/"
   },
-  "updatedAt": "2026-07-16T07:03:19.468Z",
+  "updatedAt": "2026-07-16T07:49:03.284Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -579,6 +579,7 @@
       "reason": "强化给生存或移速收益。沿用基础核心并补容错，利用长线团战反复进出场。"
     }
   ],
+  "creatorTricks": [],
   "caveats": [
     "海克斯大乱斗是 5v5 单线团战，强化优先服务英雄机制，而不是照搬斗魂竞技场。",
     "开局和 7/11/15 级抽到的强化会改变出装方向；同一英雄不要死套一条装备线。",

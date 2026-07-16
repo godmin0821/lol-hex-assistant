@@ -10,7 +10,7 @@
     "displayName": "德玛西亚之力",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/garen/"
   },
-  "updatedAt": "2026-07-16T07:03:41.485Z",
+  "updatedAt": "2026-07-16T07:49:29.039Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -582,6 +582,28 @@
         "荆棘之甲"
       ],
       "reason": "没有明显改玩法时，沿用最高胜率核心出装，再根据敌方阵容补穿透或保命。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "乐子",
+      "title": "快步 E 位移盖伦",
+      "idea": "把盖伦的短板从摸不到人改成二段突进，围绕 E 的持续贴脸和斩杀打。",
+      "augments": [
+        "快步",
+        "旋转收益",
+        "移速",
+        "爆发收割"
+      ],
+      "items": [
+        "黑色切割者",
+        "死亡之舞",
+        "斯特拉克的挑战护手",
+        "自然之力"
+      ],
+      "condition": "拿不到位移/移速强化就别过度追人，回到半肉战士。",
+      "sourceUrl": "https://www.douyin.com/video/7659872846113443110",
+      "sourceNote": "抖音公开作品标题提到快步 E 两段位移盖伦。"
     }
   ],
   "caveats": [

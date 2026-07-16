@@ -10,7 +10,7 @@
     "displayName": "复仇焰魂",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/brand/"
   },
-  "updatedAt": "2026-07-16T07:03:44.623Z",
+  "updatedAt": "2026-07-16T07:49:32.253Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -582,6 +582,28 @@
         "女妖面纱"
       ],
       "reason": "强化给生存或移速收益。沿用基础核心并补容错，利用长线团战反复进出场。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "云顶张三 / 乐子",
+      "title": "灼烧不死流",
+      "idea": "围绕持续灼烧和反复触发打长线团，适合对面近战多、你能持续蹭到人的局。",
+      "augments": [
+        "吃过路兵",
+        "高压锅",
+        "鲨鱼诱饵",
+        "技能急速类"
+      ],
+      "items": [
+        "兰德里的折磨",
+        "瑞莱的冰晶节杖",
+        "中娅沙漏",
+        "影焰"
+      ],
+      "condition": "拿到持续触发或灼烧联动强化时优先；如果对面全是长手爆发，先补金身和血量。",
+      "sourceUrl": "https://www.douyin.com/video/7655286836184616192",
+      "sourceNote": "抖音公开作品标题提到火男被动灼烧与吃兵/破绽联动。"
     }
   ],
   "caveats": [

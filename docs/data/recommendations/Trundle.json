@@ -10,7 +10,7 @@
     "displayName": "巨魔之王",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/trundle/"
   },
-  "updatedAt": "2026-07-16T07:04:05.368Z",
+  "updatedAt": "2026-07-16T07:49:57.153Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -581,6 +581,28 @@
         "巫妖之祸"
       ],
       "reason": "强化把普攻价值拉高。保持英雄原本的伤害类型，补充同体系的攻速、特效或近身容错。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "乐子",
+      "title": "地形专家无限 E",
+      "idea": "用柱子高频改变地形和分割战场，玩法核心是控位而不是单挑。",
+      "augments": [
+        "地形专家",
+        "技能急速",
+        "控制",
+        "坦度"
+      ],
+      "items": [
+        "冰霜之心",
+        "振奋盔甲",
+        "心之钢",
+        "千变者贾修"
+      ],
+      "condition": "队伍缺开团时价值高；己方全短手时注意别用柱子卡队友。",
+      "sourceUrl": "https://www.douyin.com/video/7653790771362991400",
+      "sourceNote": "抖音公开作品标题提到巨魔无限 E。"
     }
   ],
   "caveats": [

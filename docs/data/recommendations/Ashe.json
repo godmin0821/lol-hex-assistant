@@ -10,7 +10,7 @@
     "displayName": "寒冰射手",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/ashe/"
   },
-  "updatedAt": "2026-07-16T07:03:46.491Z",
+  "updatedAt": "2026-07-16T07:49:36.721Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -575,6 +575,28 @@
         "收集者"
       ],
       "reason": "强化提高斩杀或爆发收益。保持基础核心，补充同体系的伤害或穿透装备。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "云顶张三 / 乐子",
+      "title": "无限 R 指挥官",
+      "idea": "弱化普攻输出，强化大招控制循环，适合队伍需要开团和留人的局。",
+      "augments": [
+        "大法师",
+        "秘术冲拳",
+        "技能急速",
+        "控制延长"
+      ],
+      "items": [
+        "帝国指令",
+        "公理圆弧",
+        "魔宗",
+        "赛瑞尔达的怨恨"
+      ],
+      "condition": "伤害压力不够时不要全功能装，至少保留一到两件输出。",
+      "sourceUrl": "https://www.douyin.com/video/7651639725190565120",
+      "sourceNote": "两个作者都提到寒冰大招/秘术冲拳玩法。"
     }
   ],
   "caveats": [

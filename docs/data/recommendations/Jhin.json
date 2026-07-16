@@ -10,7 +10,7 @@
     "displayName": "戏命师",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/jhin/"
   },
-  "updatedAt": "2026-07-16T07:05:10.744Z",
+  "updatedAt": "2026-07-16T07:51:05.772Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -571,6 +571,28 @@
         "凡性的提醒"
       ],
       "reason": "强化提高斩杀或爆发收益。保持基础核心，补充同体系的伤害或穿透装备。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "云顶张三",
+      "title": "踢踏舞烬",
+      "idea": "围绕移速、拉扯和第四枪爆发打节奏，不追求站桩 DPS。",
+      "augments": [
+        "移速",
+        "暴击",
+        "技能急速",
+        "收割"
+      ],
+      "items": [
+        "岚切",
+        "无尽之刃",
+        "收集者",
+        "疾射火炮"
+      ],
+      "condition": "对面突脸多时先补保命；拿到移速/拉扯强化体验最好。",
+      "sourceUrl": "https://www.douyin.com/video/7654438397746854585",
+      "sourceNote": "抖音公开作品标题提到踢踏舞烬。"
     }
   ],
   "caveats": [

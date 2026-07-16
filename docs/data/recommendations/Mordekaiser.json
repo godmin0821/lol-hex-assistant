@@ -10,7 +10,7 @@
     "displayName": "铁铠冥魂",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/mordekaiser/"
   },
-  "updatedAt": "2026-07-16T07:04:59.664Z",
+  "updatedAt": "2026-07-16T07:50:54.076Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -582,6 +582,28 @@
         "虚空之杖"
       ],
       "reason": "没有明显改玩法时，沿用最高胜率核心出装，再根据敌方阵容补穿透或保命。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "乐子",
+      "title": "蛋白粉/圣火灼烧铁男",
+      "idea": "用攻速或持续灼烧强化放大铁男被动，近身后靠领域和持续伤害赢长线。",
+      "augments": [
+        "蛋白粉",
+        "圣火",
+        "高压锅",
+        "坦度转伤害"
+      ],
+      "items": [
+        "裂隙制造者",
+        "纳什之牙",
+        "兰德里的折磨",
+        "千变者贾修"
+      ],
+      "condition": "蛋白粉走攻速，圣火/高压锅走灼烧，不要两套装备同时贪。",
+      "sourceUrl": "https://www.douyin.com/video/7590825209142316338",
+      "sourceNote": "抖音公开作品提到铁男蛋白粉和圣火灼烧玩法。"
     }
   ],
   "caveats": [

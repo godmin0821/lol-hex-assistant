@@ -10,7 +10,7 @@
     "displayName": "德玛西亚之翼",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/quinn/"
   },
-  "updatedAt": "2026-07-16T07:03:41.740Z",
+  "updatedAt": "2026-07-16T07:49:29.320Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -573,6 +573,7 @@
       "reason": "强化把普攻价值拉高。保持英雄原本的伤害类型，补充同体系的攻速、特效或近身容错。"
     }
   ],
+  "creatorTricks": [],
   "caveats": [
     "海克斯大乱斗是 5v5 单线团战，强化优先服务英雄机制，而不是照搬斗魂竞技场。",
     "开局和 7/11/15 级抽到的强化会改变出装方向；同一英雄不要死套一条装备线。",

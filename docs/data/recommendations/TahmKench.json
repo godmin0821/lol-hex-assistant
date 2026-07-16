@@ -10,7 +10,7 @@
     "displayName": "河流之王",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/tahmkench/"
   },
-  "updatedAt": "2026-07-16T07:03:54.411Z",
+  "updatedAt": "2026-07-16T07:49:44.761Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -583,6 +583,27 @@
         "振奋盔甲"
       ],
       "reason": "强化直接放大技能收益。保持基础核心，补充同体系的法强、穿透或保命装备。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "云顶张三 / 乐子",
+      "title": "虚幻武器核爆流",
+      "idea": "把塔姆 Q 和被动当爆发核心，拿到虚幻武器后优先堆能放大单次命中的伤害。",
+      "augments": [
+        "虚幻武器",
+        "技能命中",
+        "坦度转伤害"
+      ],
+      "items": [
+        "心之钢",
+        "巨型九头蛇",
+        "狂徒铠甲",
+        "振奋盔甲"
+      ],
+      "condition": "必须围绕命中率打，Q 空太多就回到坦克路线。",
+      "sourceUrl": "https://www.douyin.com/video/7658359322975423778",
+      "sourceNote": "两个作者都提到虚幻武器塔姆玩法。"
     }
   ],
   "caveats": [

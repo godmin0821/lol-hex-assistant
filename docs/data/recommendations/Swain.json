@@ -10,7 +10,7 @@
     "displayName": "诺克萨斯统领",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/swain/"
   },
-  "updatedAt": "2026-07-16T07:04:35.281Z",
+  "updatedAt": "2026-07-16T07:50:28.275Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -580,6 +580,28 @@
         "荆棘之甲"
       ],
       "reason": "没有明显改玩法时，沿用最高胜率核心出装，再根据敌方阵容补穿透或保命。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "云顶张三",
+      "title": "乌鸦 BUG 吸血流",
+      "idea": "围绕大招持续战场和吸血强化，做成越多人围你越难死的团战核心。",
+      "augments": [
+        "持续治疗",
+        "法强成长",
+        "坦度",
+        "技能急速"
+      ],
+      "items": [
+        "裂隙制造者",
+        "兰德里的折磨",
+        "中娅沙漏",
+        "振奋盔甲"
+      ],
+      "condition": "对面重伤多时不要只堆吸血，补抗性和金身更关键。",
+      "sourceUrl": "https://www.douyin.com/video/7659662667040294629",
+      "sourceNote": "抖音公开作品标题提到乌鸦特殊强化玩法。"
     }
   ],
   "caveats": [

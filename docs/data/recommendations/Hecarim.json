@@ -10,7 +10,7 @@
     "displayName": "战争之影",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/hecarim/"
   },
-  "updatedAt": "2026-07-16T07:05:25.999Z",
+  "updatedAt": "2026-07-16T07:51:22.155Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -586,6 +586,28 @@
         "荆棘之甲"
       ],
       "reason": "没有明显改玩法时，沿用最高胜率核心出装，再根据敌方阵容补穿透或保命。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "乐子",
+      "title": "保持坚定体修人马",
+      "idea": "围绕 Q 的连续作战和双抗成长，把人马做成越打越硬的前排战士。",
+      "augments": [
+        "保持坚定",
+        "双抗成长",
+        "技能急速",
+        "移速"
+      ],
+      "items": [
+        "焚天",
+        "死亡之舞",
+        "振奋盔甲",
+        "千变者贾修"
+      ],
+      "condition": "需要持续打满 Q；如果对面爆发秒人，先补抗性再追输出。",
+      "sourceUrl": "https://www.douyin.com/video/7657083459650866467",
+      "sourceNote": "抖音公开作品标题提到保持坚定体修人马。"
     }
   ],
   "caveats": [

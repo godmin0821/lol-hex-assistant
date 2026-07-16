@@ -829,6 +829,93 @@ button:hover {
   margin-top: 14px;
 }
 
+.creator-tricks {
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(10, 200, 185, 0.36);
+  background:
+    linear-gradient(180deg, rgba(10, 200, 185, 0.1), rgba(11, 17, 25, 0.94)),
+    #0b1119;
+  padding: 18px;
+  margin: 16px 0;
+}
+
+.creator-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.creator-head > span {
+  max-width: 360px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: right;
+}
+
+.trick-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.trick-card {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  border: 1px solid rgba(200, 155, 60, 0.34);
+  background: rgba(5, 8, 13, 0.62);
+  padding: 13px;
+}
+
+.trick-top {
+  display: grid;
+  gap: 4px;
+}
+
+.trick-top span,
+.trick-card small {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.trick-top strong {
+  color: #f7e6bd;
+  font-size: 18px;
+}
+
+.trick-card p {
+  margin: 0;
+  color: #dbe6f1;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.trick-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.trick-tags b {
+  border: 1px solid rgba(10, 200, 185, 0.32);
+  background: rgba(10, 200, 185, 0.09);
+  color: #dffaf6;
+  padding: 5px 7px;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.trick-card a {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
 .panel.compact {
   padding: 14px;
 }
@@ -1191,6 +1278,7 @@ button:hover {
   .source-list,
   .suggestions > div,
   .build-grid,
+  .trick-list,
   .branch-list,
   .quick-strip,
   .map-board,
@@ -1237,9 +1325,51 @@ button:hover {
   }
 
   .mindmap-head,
+  .creator-head,
   .tier-title {
     display: grid;
     gap: 5px;
+  }
+
+  .creator-tricks {
+    margin: 10px 0 12px;
+    padding: 12px;
+  }
+
+  .creator-head > span {
+    max-width: none;
+    text-align: left;
+  }
+
+  .trick-list {
+    display: flex;
+    gap: 8px;
+    margin: 0 -12px;
+    padding: 0 12px 4px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .trick-card {
+    flex: 0 0 86%;
+    padding: 11px;
+    scroll-snap-align: start;
+  }
+
+  .trick-top strong {
+    font-size: 17px;
+  }
+
+  .trick-tags {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .trick-tags b {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .mindmap-head h3 {

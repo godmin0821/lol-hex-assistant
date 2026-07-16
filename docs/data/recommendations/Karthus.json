@@ -10,7 +10,7 @@
     "displayName": "死亡颂唱者",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/karthus/"
   },
-  "updatedAt": "2026-07-16T07:04:58.850Z",
+  "updatedAt": "2026-07-16T07:50:53.312Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -577,6 +577,28 @@
         "虚空之杖"
       ],
       "reason": "没有明显改玩法时，沿用最高胜率核心出装，再根据敌方阵容补穿透或保命。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "云顶张三 / 乐子",
+      "title": "术士无限大招流",
+      "idea": "把死歌当团战启动器，强化优先找能放大 R 或缩短循环的选项。",
+      "augments": [
+        "术士果汁盒",
+        "牙仙子",
+        "大法师",
+        "法强成长"
+      ],
+      "items": [
+        "兰德里的折磨",
+        "灭世者的死亡之帽",
+        "虚空之杖",
+        "中娅沙漏"
+      ],
+      "condition": "金色强化成型也能玩；如果对面有多件魔抗，第三件优先穿透。",
+      "sourceUrl": "https://www.douyin.com/video/7649772732728544554",
+      "sourceNote": "抖音公开作品标题提到死歌牙仙子和术士流。"
     }
   ],
   "caveats": [

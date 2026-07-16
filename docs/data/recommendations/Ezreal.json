@@ -10,7 +10,7 @@
     "displayName": "探险家",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/ezreal/"
   },
-  "updatedAt": "2026-07-16T07:04:59.121Z",
+  "updatedAt": "2026-07-16T07:50:53.560Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -577,6 +577,28 @@
         "卢安娜的飓风"
       ],
       "reason": "强化把普攻价值拉高。保持英雄原本的伤害类型，补充同体系的攻速、特效或近身容错。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "乐子",
+      "title": "双修暴击 EZ",
+      "idea": "放弃固定三相思路，强化指向暴击或双修时，把 Q 的混合收益拉起来。",
+      "augments": [
+        "暴击",
+        "双修",
+        "技能命中",
+        "收割"
+      ],
+      "items": [
+        "魔宗",
+        "夺萃之镰",
+        "无尽之刃",
+        "多米尼克领主的致意"
+      ],
+      "condition": "需要命中率支撑；如果 Q 命中差，传统三相/魔切更稳。",
+      "sourceUrl": "https://www.douyin.com/video/7659109102441794856",
+      "sourceNote": "抖音公开作品提到 EZ 放弃三相走双修暴击。"
     }
   ],
   "caveats": [

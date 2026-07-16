@@ -10,7 +10,7 @@
     "displayName": "无极剑圣",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/masteryi/"
   },
-  "updatedAt": "2026-07-16T07:05:09.763Z",
+  "updatedAt": "2026-07-16T07:51:04.127Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -584,6 +584,28 @@
         "凡性的提醒"
       ],
       "reason": "强化直接放大技能收益。保持基础核心，补充同体系的法强、穿透或保命装备。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "云顶张三",
+      "title": "爽局收割流",
+      "idea": "用攻速和击杀刷新吃强化收益，核心是先活到第一轮收割，而不是无脑先进场。",
+      "augments": [
+        "普攻特效",
+        "攻速",
+        "收割",
+        "生存拉扯"
+      ],
+      "items": [
+        "鬼索的狂暴之刃",
+        "破败王者之刃",
+        "智慧末刃",
+        "死亡之舞"
+      ],
+      "condition": "队友有前排或控制时再贪输出；没有进场环境就先补容错。",
+      "sourceUrl": "https://www.douyin.com/video/7658153055742095738",
+      "sourceNote": "抖音公开作品标题提到剑圣海斗爽局玩法。"
     }
   ],
   "caveats": [

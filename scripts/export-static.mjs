@@ -161,6 +161,7 @@ function placeholderRecommendation(champion, freshness, error) {
     build: { starting: [], boots: [], core: [], late: [] },
     augments: [],
     branches: [],
+    creatorTricks: [],
     caveats: [
       "该英雄已有客户端资料，但当前统计源暂未提供海克斯大乱斗数据。",
       "为了避免误导，这里不生成伪攻略；建议先按英雄常规定位出装，等样本量出现后再刷新。"

@@ -10,7 +10,7 @@
     "displayName": "兽灵行者",
     "mayhemUrl": "https://arammayhem.com/zh-cn/build/udyr/"
   },
-  "updatedAt": "2026-07-16T07:04:58.014Z",
+  "updatedAt": "2026-07-16T07:50:52.577Z",
   "freshness": {
     "patch": "26.14",
     "statsPatch": "26.14",
@@ -581,6 +581,28 @@
         "虚空之杖"
       ],
       "reason": "没有明显改玩法时，沿用最高胜率核心出装，再根据敌方阵容补穿透或保命。"
+    }
+  ],
+  "creatorTricks": [
+    {
+      "creator": "乐子",
+      "title": "秒坦爆发乌迪尔",
+      "idea": "把乌迪尔做成近身爆发战士，目标是短窗口融化前排。",
+      "augments": [
+        "双刀流",
+        "普攻特效",
+        "移速",
+        "近战爆发"
+      ],
+      "items": [
+        "三相之力",
+        "破败王者之刃",
+        "智慧末刃",
+        "斯特拉克的挑战护手"
+      ],
+      "condition": "需要能摸到人；如果对面风筝强，鞋子和移速强化优先级上升。",
+      "sourceUrl": "https://www.douyin.com/video/7599326238699752738",
+      "sourceNote": "抖音公开置顶作品提到乌迪尔秒坦出装。"
     }
   ],
   "caveats": [
