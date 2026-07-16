@@ -170,6 +170,46 @@ button:hover {
   padding: 24px;
 }
 
+.match-header {
+  position: relative;
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(200, 155, 60, 0.34);
+  background:
+    linear-gradient(90deg, rgba(5, 8, 13, 0.94), rgba(13, 20, 32, 0.92)),
+    var(--surface);
+  padding: 10px;
+}
+
+.match-header img {
+  width: 86px;
+  height: 64px;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+.match-header h2 {
+  color: #f7e6bd;
+  font-size: 28px;
+}
+
+.match-header span {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.match-header button {
+  min-height: 42px;
+  padding: 0 14px;
+  background: rgba(5, 8, 13, 0.72);
+  color: var(--text);
+}
+
 .result-hero {
   position: relative;
   min-height: 310px;
@@ -270,7 +310,7 @@ button:hover {
 
 .live-planner {
   display: grid;
-  gap: 16px;
+  gap: 14px;
   margin-top: 16px;
   border: 1px solid rgba(10, 200, 185, 0.42);
   background:
@@ -319,7 +359,7 @@ button:hover {
 
 .planner-board {
   display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr);
   gap: 14px;
   align-items: start;
 }
@@ -331,19 +371,21 @@ button:hover {
 
 .planner-slots {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 8px;
 }
 
 .planner-slot {
   display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
   gap: 4px;
-  min-height: 72px;
+  min-height: 58px;
   align-content: center;
+  align-items: center;
   border: 1px solid rgba(148, 163, 184, 0.34);
   background: rgba(5, 8, 13, 0.58);
   color: var(--text);
-  padding: 9px;
+  padding: 9px 10px;
   text-align: left;
   box-shadow: none;
 }
@@ -370,7 +412,7 @@ button:hover {
 .planner-slot strong {
   overflow: hidden;
   color: #f7e6bd;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.25;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -378,8 +420,11 @@ button:hover {
 
 .planner-input-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 76px;
+  grid-template-columns: minmax(0, 1fr) 82px;
   gap: 8px;
+  border: 1px solid rgba(10, 200, 185, 0.28);
+  background: rgba(10, 200, 185, 0.06);
+  padding: 8px;
 }
 
 .planner-input-row input,
@@ -459,15 +504,15 @@ button:hover {
 
 .planner-routes {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
 .planner-route {
   display: grid;
-  gap: 11px;
+  gap: 12px;
   align-content: start;
-  min-height: 246px;
+  min-height: 100%;
   border: 1px solid rgba(200, 155, 60, 0.34);
   background: rgba(5, 8, 13, 0.58);
   padding: 14px;
@@ -514,18 +559,30 @@ button:hover {
 }
 
 .planner-mini-tags {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px;
 }
 
-.planner-mini-tags b {
+.planner-mini-tags b,
+.planner-mini-tags button {
   border: 1px solid rgba(10, 200, 185, 0.3);
   background: rgba(10, 200, 185, 0.08);
   color: #dffaf6;
   padding: 5px 7px;
   font-size: 12px;
   line-height: 1.25;
+}
+
+.planner-mini-tags button {
+  min-height: 36px;
+  width: 100%;
+  box-shadow: none;
+  text-align: left;
+}
+
+.planner-mini-tags button:hover {
+  border-color: rgba(200, 155, 60, 0.78);
 }
 
 .compact-reference,
@@ -1444,6 +1501,32 @@ button:hover {
     border-width: 0 0 1px;
   }
 
+  .match-header {
+    grid-template-columns: 58px minmax(0, 1fr);
+    gap: 10px;
+    margin: -12px -12px 0;
+    border-width: 0 0 1px;
+    padding: 10px 12px;
+  }
+
+  .match-header img {
+    width: 58px;
+    height: 58px;
+  }
+
+  .match-header h2 {
+    font-size: 24px;
+  }
+
+  .match-header span {
+    font-size: 12px;
+  }
+
+  .match-header button {
+    grid-column: 1 / -1;
+    min-height: 38px;
+  }
+
   .result-hero img {
     object-position: center top;
   }
@@ -1523,6 +1606,7 @@ button:hover {
   }
 
   .planner-slot {
+    grid-template-columns: 68px minmax(0, 1fr);
     min-height: 58px;
     padding: 8px;
   }
@@ -1558,7 +1642,8 @@ button:hover {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .planner-mini-tags b {
+  .planner-mini-tags b,
+  .planner-mini-tags button {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
