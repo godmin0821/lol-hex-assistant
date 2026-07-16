@@ -280,33 +280,9 @@ function render(data) {
   result.innerHTML = `
     ${resultHero(data)}
     ${livePlannerSection(data)}
-    ${loadoutOverview(data)}
-    ${mobileTierNav(data)}
-    ${mindMapSection(data)}
-    ${creatorTricksSection(data)}
-    ${buildSection(data)}
-    ${augmentSection(data)}
-    ${branchSection(data)}
+    ${compactReferenceSection(data)}
     ${skillSection(data)}
-    <div class="grid">
-      ${panel("使用原则", data.caveats)}
-    </div>
-
-    ${
-      data.signals?.length
-        ? `<section class="signals"><h3>站点信号</h3>${data.signals
-            .map((signal) => `<span>${escapeHtml(signal)}</span>`)
-            .join("")}</section>`
-        : ""
-    }
-
-    <section class="sources source-section">
-      <h3>来源和继续检索</h3>
-      <div class="source-list">
-        ${data.sources.map(sourceCard).join("")}
-        ${data.socialSearches.map(socialCard).join("")}
-      </div>
-    </section>
+    ${sourceReferenceSection(data)}
   `;
 }
 
@@ -381,71 +357,89 @@ function livePlannerSection(data) {
   const selected = plannerSelections.get(plannerKey(data)) || [];
   const pool = augmentPool(data);
   const routes = buildPlannerRoutes(data, selected);
-  const candidates = recommendNextAugments(data, selected, 8);
+  const candidates = recommendNextAugments(data, selected, 6);
+  const step = Math.min(selected.length + 1, 4);
+  const isComplete = selected.length >= 4;
+  const defaultCore = bestPath(data.build?.core);
+  const stepText = isComplete
+    ? "4 个强化已录完，按下方更契合的一条路线执行。"
+    : selected.length
+      ? `你已经拿到 ${selected.length} 个强化，现在重点判断第 ${step} 个强化。`
+      : "开局拿到第一个强化后先录入，出装路线会立刻收敛。";
 
   return `
     <section id="live-planner" class="live-planner" aria-label="强化实时规划器">
-      <div class="planner-head">
+      <div class="planner-command">
         <div>
           <p class="eyebrow">实战规划器</p>
-          <h3>你拿到什么强化，就把它填进来</h3>
+          <h3>${isComplete ? "本局路线已成型" : `第 ${step} 手怎么选`}</h3>
+          <p>${escapeHtml(stepText)}</p>
         </div>
-        <span>${selected.length ? `已锁定 ${selected.length}/4 个强化` : "先输入第一个强化，路线会立刻收敛"}</span>
-      </div>
-
-      <div class="planner-slots">
-        ${[0, 1, 2, 3]
-          .map((index) => {
-            const value = selected[index];
-            return `
-              <button
-                type="button"
-                class="planner-slot ${value ? "filled" : ""}"
-                data-planner-action="${value ? "remove" : "noop"}"
-                data-index="${index}"
-                aria-label="${value ? `移除第 ${index + 1} 个强化 ${value}` : `第 ${index + 1} 个强化未选择`}"
-              >
-                <small>第 ${index + 1} 个</small>
-                <strong>${escapeHtml(value || "待选择")}</strong>
-              </button>
-            `;
-          })
-          .join("")}
-      </div>
-
-      <div class="planner-input-row">
-        <input id="planner-augment-input" list="planner-augment-options" placeholder="输入你刚拿到的强化，如：术士果汁盒 / 虚幻武器 / 大法师" />
-        <datalist id="planner-augment-options">
-          ${pool.map((augment) => `<option value="${escapeHtml(augment.name)}"></option>`).join("")}
-        </datalist>
-        <button type="button" data-planner-action="add">加入</button>
-        ${selected.length ? `<button type="button" class="secondary-action" data-planner-action="reset">重置</button>` : ""}
-      </div>
-
-      <div class="planner-next">
-        <span>下一手可优先看</span>
-        <div>
-          ${candidates
-            .map(
-              (augment) => `
-                <button type="button" data-planner-action="pick" data-augment-name="${escapeHtml(augment.name)}">
-                  <strong>${escapeHtml(augment.name)}</strong>
-                  <small>${escapeHtml(augment.tier || "强化")} · ${escapeHtml(augment.winRate || augment.reason || "可选")}</small>
-                </button>
-              `
-            )
-            .join("") || `<em>该英雄暂无可继续推荐的强化</em>`}
+        <div class="planner-progress" aria-label="当前强化进度">
+          <strong>${selected.length}/4</strong>
+          <span>已锁定强化</span>
         </div>
       </div>
 
-      <div class="planner-routes">
-        ${routes.map(plannerRouteCard).join("")}
+      <div class="planner-board">
+        <div class="planner-left">
+          <div class="planner-slots">
+            ${[0, 1, 2, 3]
+              .map((index) => {
+                const value = selected[index];
+                const active = !value && index === selected.length && selected.length < 4;
+                return `
+                  <button
+                    type="button"
+                    class="planner-slot ${value ? "filled" : ""} ${active ? "active" : ""}"
+                    data-planner-action="${value ? "remove" : "noop"}"
+                    data-index="${index}"
+                    aria-label="${value ? `移除第 ${index + 1} 个强化 ${value}` : `第 ${index + 1} 个强化未选择`}"
+                  >
+                    <small>第 ${index + 1} 个符文</small>
+                    <strong>${escapeHtml(value || (active ? "现在录入" : "待选择"))}</strong>
+                  </button>
+                `;
+              })
+              .join("")}
+          </div>
+
+          <div class="planner-input-row">
+            <input id="planner-augment-input" list="planner-augment-options" placeholder="输入刚拿到的强化符文" />
+            <datalist id="planner-augment-options">
+              ${pool.map((augment) => `<option value="${escapeHtml(augment.name)}"></option>`).join("")}
+            </datalist>
+            <button type="button" data-planner-action="add">确认</button>
+            ${selected.length ? `<button type="button" class="secondary-action" data-planner-action="reset">重开本局</button>` : ""}
+          </div>
+
+          <div class="planner-next">
+            <span>${isComplete ? "本局已成型" : `第 ${step} 手优先拿这些`}</span>
+            <div>
+              ${candidates
+                .map(
+                  (augment, index) => `
+                    <button type="button" data-planner-action="pick" data-augment-name="${escapeHtml(augment.name)}">
+                      <em>${index + 1}</em>
+                      <strong>${escapeHtml(augment.name)}</strong>
+                      <small>${escapeHtml(augment.tier || "强化")} · ${escapeHtml(augment.winRate || augment.reason || "可选")}</small>
+                    </button>
+                  `
+                )
+                .join("") || `<i>该英雄暂无可继续推荐的强化</i>`}
+            </div>
+          </div>
+        </div>
+
+        <div class="planner-routes">
+          ${routes.map((route) => plannerRouteCard(route, defaultCore)).join("")}
+        </div>
       </div>
     </section>
   `;
 }
 
-function plannerRouteCard(route) {
+function plannerRouteCard(route, defaultCore = "") {
   return `
     <article class="planner-route ${escapeHtml(route.kind)}">
       <div class="planner-route-head">
@@ -454,16 +448,19 @@ function plannerRouteCard(route) {
       </div>
       <p>${escapeHtml(route.reason)}</p>
       <div class="planner-route-block">
-        <small>后续强化</small>
+        <small>现在怎么出装</small>
+        <div class="item-path">${escapeHtml(route.items.join(" → ") || defaultCore || "按默认核心出装")}</div>
+      </div>
+      <div class="planner-route-block">
+        <small>后续优先拿</small>
         <div class="planner-mini-tags">
           ${route.nextAugments.map((augment) => `<b>${escapeHtml(augment)}</b>`).join("") || `<b>按高胜率补强</b>`}
         </div>
       </div>
       <div class="planner-route-block">
-        <small>装备路线</small>
-        <div class="item-path">${escapeHtml(route.items.join(" → ") || "按默认核心出装")}</div>
+        <small>什么时候走</small>
+        <div class="route-condition">${escapeHtml(route.condition)}</div>
       </div>
-      <small>${escapeHtml(route.condition)}</small>
     </article>
   `;
 }
@@ -635,6 +632,74 @@ function loadoutOverview(data) {
         ${tiers.map(tierRouteCard).join("")}
       </div>
     </section>
+  `;
+}
+
+function compactReferenceSection(data) {
+  const core = bestRow(data.build?.core);
+  const boots = bestRow(data.build?.boots);
+  const start = bestRow(data.build?.starting);
+  const groups = groupAugmentsByTier(data.augments || []);
+  const tricks = data.creatorTricks || [];
+  return `
+    <section class="compact-reference" aria-label="赛中备用参考">
+      <div class="reference-head">
+        <div>
+          <p class="eyebrow">备用参考</p>
+          <h3>只在犹豫时看这里</h3>
+        </div>
+        <span>${escapeHtml(data.freshness?.patch || "-")} 数据</span>
+      </div>
+
+      <div class="reference-cards">
+        ${summaryCard("默认核心", core?.items?.join(" → ") || "看规划器路线", core)}
+        ${summaryCard("鞋子优先", boots?.items?.join(" → ") || "按阵容选择", boots)}
+        ${summaryCard("开局倾向", start?.items?.join(" → ") || "暂无数据", start)}
+      </div>
+
+      <div class="reference-augments">
+        ${groups
+          .map(
+            (group) => `
+              <article>
+                <strong>${escapeHtml(group.title)}</strong>
+                <div>
+                  ${group.augments
+                    .slice(0, 4)
+                    .map((augment) => `<span>${escapeHtml(augment.name)}<small>${escapeHtml(augment.winRate || "-")}</small></span>`)
+                    .join("") || `<span>暂无</span>`}
+                </div>
+              </article>
+            `
+          )
+          .join("")}
+      </div>
+
+      ${
+        tricks.length
+          ? `<details class="reference-details">
+              <summary>黑科技路线和完整分支</summary>
+              ${creatorTricksSection(data)}
+              ${branchSection(data)}
+            </details>`
+          : `<details class="reference-details">
+              <summary>完整强化分支</summary>
+              ${branchSection(data)}
+            </details>`
+      }
+    </section>
+  `;
+}
+
+function sourceReferenceSection(data) {
+  return `
+    <details class="source-collapsible">
+      <summary>数据来源和继续检索</summary>
+      <div class="source-list">
+        ${(data.sources || []).map(sourceCard).join("")}
+        ${(data.socialSearches || []).map(socialCard).join("")}
+      </div>
+    </details>
   `;
 }
 

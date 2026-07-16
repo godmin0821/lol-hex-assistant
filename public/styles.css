@@ -270,16 +270,17 @@ button:hover {
 
 .live-planner {
   display: grid;
-  gap: 14px;
+  gap: 16px;
   margin-top: 16px;
   border: 1px solid rgba(10, 200, 185, 0.42);
   background:
-    linear-gradient(180deg, rgba(10, 200, 185, 0.11), rgba(7, 11, 18, 0.96)),
+    radial-gradient(circle at 18% 0, rgba(10, 200, 185, 0.22), transparent 30%),
+    linear-gradient(180deg, rgba(10, 200, 185, 0.12), rgba(7, 11, 18, 0.98)),
     var(--surface);
-  padding: 16px;
+  padding: 18px;
 }
 
-.planner-head,
+.planner-command,
 .planner-route-head {
   display: flex;
   align-items: end;
@@ -287,16 +288,50 @@ button:hover {
   gap: 12px;
 }
 
-.planner-head > span {
+.planner-command p {
+  max-width: 560px;
+  margin: 8px 0 0;
+  color: #d7e0e8;
+  line-height: 1.55;
+}
+
+.planner-progress {
+  display: grid;
+  gap: 3px;
+  min-width: 104px;
+  border: 1px solid rgba(10, 200, 185, 0.38);
+  background: rgba(5, 8, 13, 0.62);
+  padding: 10px 12px;
+  text-align: right;
+}
+
+.planner-progress strong {
+  color: var(--accent);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.planner-progress span {
   color: var(--accent-2);
   font-size: 12px;
   font-weight: 800;
-  text-align: right;
+}
+
+.planner-board {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.planner-left {
+  display: grid;
+  gap: 12px;
 }
 
 .planner-slots {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -318,9 +353,15 @@ button:hover {
   background: rgba(10, 200, 185, 0.1);
 }
 
+.planner-slot.active {
+  border-color: rgba(200, 155, 60, 0.7);
+  background:
+    linear-gradient(180deg, rgba(200, 155, 60, 0.18), rgba(5, 8, 13, 0.58));
+}
+
 .planner-slot small,
 .planner-route-block small,
-.planner-route > small {
+.route-condition {
   color: var(--muted);
   font-size: 12px;
   line-height: 1.4;
@@ -337,7 +378,7 @@ button:hover {
 
 .planner-input-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) 76px;
   gap: 8px;
 }
 
@@ -358,31 +399,44 @@ button:hover {
 }
 
 .planner-next > span {
-  color: var(--muted);
-  font-size: 12px;
+  color: #f7e6bd;
+  font-size: 13px;
+  font-weight: 900;
 }
 
 .planner-next > div {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 2px;
-  -webkit-overflow-scrolling: touch;
 }
 
 .planner-next button {
   display: grid;
-  gap: 3px;
-  flex: 0 0 auto;
-  min-height: 54px;
-  min-width: 138px;
-  max-width: 180px;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 2px 8px;
+  min-height: 58px;
+  min-width: 0;
+  max-width: none;
   border: 1px solid rgba(200, 155, 60, 0.34);
   background: rgba(5, 8, 13, 0.58);
   color: var(--text);
   padding: 8px 10px;
   text-align: left;
   box-shadow: none;
+}
+
+.planner-next button em {
+  grid-row: 1 / 3;
+  align-self: center;
+  justify-self: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(10, 200, 185, 0.38);
+  color: var(--accent);
+  font-size: 12px;
+  font-style: normal;
+  line-height: 20px;
+  text-align: center;
 }
 
 .planner-next button strong,
@@ -397,7 +451,7 @@ button:hover {
   font-size: 11px;
 }
 
-.planner-next em {
+.planner-next i {
   color: var(--muted);
   font-size: 13px;
   font-style: normal;
@@ -405,7 +459,7 @@ button:hover {
 
 .planner-routes {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 12px;
 }
 
@@ -416,7 +470,7 @@ button:hover {
   min-height: 246px;
   border: 1px solid rgba(200, 155, 60, 0.34);
   background: rgba(5, 8, 13, 0.58);
-  padding: 13px;
+  padding: 14px;
 }
 
 .planner-route.stable {
@@ -454,6 +508,11 @@ button:hover {
   gap: 6px;
 }
 
+.route-condition {
+  border-left: 2px solid rgba(200, 155, 60, 0.46);
+  padding-left: 8px;
+}
+
 .planner-mini-tags {
   display: flex;
   flex-wrap: wrap;
@@ -467,6 +526,95 @@ button:hover {
   padding: 5px 7px;
   font-size: 12px;
   line-height: 1.25;
+}
+
+.compact-reference,
+.source-collapsible {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+  border: 1px solid rgba(200, 155, 60, 0.26);
+  background: rgba(5, 8, 13, 0.46);
+  padding: 16px;
+}
+
+.reference-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.reference-head > span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.reference-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.reference-augments {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.reference-augments article {
+  display: grid;
+  gap: 9px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(8, 13, 20, 0.62);
+  padding: 10px;
+}
+
+.reference-augments article > strong {
+  color: #f7e6bd;
+}
+
+.reference-augments article > div {
+  display: grid;
+  gap: 6px;
+}
+
+.reference-augments span {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: #dbe6f1;
+  font-size: 13px;
+}
+
+.reference-augments small {
+  flex: 0 0 auto;
+  color: var(--accent-2);
+}
+
+.reference-details,
+.source-collapsible {
+  color: var(--text);
+}
+
+.reference-details summary,
+.source-collapsible summary {
+  cursor: pointer;
+  color: #f7e6bd;
+  font-weight: 900;
+}
+
+.reference-details .creator-tricks,
+.reference-details .branch-section {
+  margin-top: 14px;
+}
+
+.source-collapsible {
+  display: block;
+}
+
+.source-collapsible .source-list {
+  margin-top: 14px;
 }
 
 .overview-head {
@@ -1345,19 +1493,33 @@ button:hover {
     padding: 12px;
   }
 
-  .planner-head,
+  .planner-command,
   .planner-route-head {
     display: grid;
     gap: 5px;
   }
 
-  .planner-head > span,
+  .planner-progress,
   .planner-route-head strong {
     text-align: left;
   }
 
-  .planner-slots {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .planner-board {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-command p {
+    font-size: 13px;
+  }
+
+  .planner-progress {
+    min-width: 0;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+  }
+
+  .planner-progress strong {
+    font-size: 24px;
   }
 
   .planner-slot {
@@ -1374,12 +1536,11 @@ button:hover {
   }
 
   .planner-next > div {
-    margin: 0 -12px;
-    padding: 0 12px 3px;
+    grid-template-columns: 1fr;
   }
 
   .planner-next button {
-    min-width: 132px;
+    min-width: 0;
   }
 
   .planner-routes {
@@ -1401,6 +1562,16 @@ button:hover {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .reference-head {
+    display: grid;
+    gap: 4px;
+  }
+
+  .reference-cards,
+  .reference-augments {
+    grid-template-columns: 1fr;
   }
 
   .overview-head {
