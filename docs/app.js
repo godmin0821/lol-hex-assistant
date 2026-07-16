@@ -640,74 +640,6 @@ function loadoutOverview(data) {
   `;
 }
 
-function compactReferenceSection(data) {
-  const core = bestRow(data.build?.core);
-  const boots = bestRow(data.build?.boots);
-  const start = bestRow(data.build?.starting);
-  const groups = groupAugmentsByTier(data.augments || []);
-  const tricks = data.creatorTricks || [];
-  return `
-    <section class="compact-reference" aria-label="赛中备用参考">
-      <div class="reference-head">
-        <div>
-          <p class="eyebrow">备用参考</p>
-          <h3>只在犹豫时看这里</h3>
-        </div>
-        <span>${escapeHtml(data.freshness?.patch || "-")} 数据</span>
-      </div>
-
-      <div class="reference-cards">
-        ${summaryCard("默认核心", core?.items?.join(" → ") || "看规划器路线", core)}
-        ${summaryCard("鞋子优先", boots?.items?.join(" → ") || "按阵容选择", boots)}
-        ${summaryCard("开局倾向", start?.items?.join(" → ") || "暂无数据", start)}
-      </div>
-
-      <div class="reference-augments">
-        ${groups
-          .map(
-            (group) => `
-              <article>
-                <strong>${escapeHtml(group.title)}</strong>
-                <div>
-                  ${group.augments
-                    .slice(0, 4)
-                    .map((augment) => `<span>${escapeHtml(augment.name)}<small>${escapeHtml(augment.winRate || "-")}</small></span>`)
-                    .join("") || `<span>暂无</span>`}
-                </div>
-              </article>
-            `
-          )
-          .join("")}
-      </div>
-
-      ${
-        tricks.length
-          ? `<details class="reference-details">
-              <summary>黑科技路线和完整分支</summary>
-              ${creatorTricksSection(data)}
-              ${branchSection(data)}
-            </details>`
-          : `<details class="reference-details">
-              <summary>完整强化分支</summary>
-              ${branchSection(data)}
-            </details>`
-      }
-    </section>
-  `;
-}
-
-function sourceReferenceSection(data) {
-  return `
-    <details class="source-collapsible">
-      <summary>数据来源和继续检索</summary>
-      <div class="source-list">
-        ${(data.sources || []).map(sourceCard).join("")}
-        ${(data.socialSearches || []).map(socialCard).join("")}
-      </div>
-    </details>
-  `;
-}
-
 function bestRow(rows = []) {
   return rows?.find((item) => item.items?.length) || rows?.[0];
 }
@@ -1019,30 +951,6 @@ function augmentCard(augment) {
       </div>
       <p>${escapeHtml(augment.description || "")}</p>
     </article>
-  `;
-}
-
-function branchSection(data) {
-  return `
-    <section class="sources branch-section">
-      <h3>详细分支说明</h3>
-      <div class="branch-list">
-        ${(data.branches || [])
-          .map(
-            (branch) => `
-              <article class="branch-card">
-                <div class="branch-head">
-                  <strong>${escapeHtml(branch.name)}</strong>
-                  <span>${escapeHtml(branch.label)} · ${escapeHtml(branch.tier || "未知")} · 胜率 ${escapeHtml(branch.winRate || "-")}</span>
-                </div>
-                <div class="item-path">${escapeHtml((branch.items || []).join(" → "))}</div>
-                <p>${escapeHtml(branch.reason || "")}</p>
-              </article>
-            `
-          )
-          .join("")}
-      </div>
-    </section>
   `;
 }
 
